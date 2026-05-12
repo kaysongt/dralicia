@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Alicia Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <img src="/src/MainLogo_DrAlicia_Black.avif" alt="Dr. Alicia logo" class="logo" />
+        Dr. Alicia Dashboard
+      </div>
+      <nav>
+        <a href="/index.html">Back to Site</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="dash-title">Personal Command Dashboard</h1>
+      <p class="muted">Single entrance point for Dr. Alicia to monitor operations, scheduling, sales, payments, and growth.</p>
+
+      <section class="kpi-grid">
+        <article class="kpi"><p>Shopify Sales (Today)</p><strong>$0</strong></article>
+        <article class="kpi"><p>TikTok Shop Sales (Today)</p><strong>$0</strong></article>
+        <article class="kpi"><p>Future Meetings (7 days)</p><strong>0</strong></article>
+        <article class="kpi"><p>Open Payment Issues</p><strong>0</strong></article>
+      </section>
+
+      <section class="dash-layout">
+        <article class="panel calendar-panel">
+          <div class="panel-head">
+            <h2>Calendar</h2>
+            <span>Apple-style weekly view</span>
+          </div>
+          <div class="apple-calendar">
+            <div class="cal-row cal-head"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+            <div class="cal-row"><span class="slot">Consultation 11:00</span><span class="slot">Therapy 1:00</span><span class="slot">VIP Call 3:00</span><span class="slot empty">—</span><span class="slot">Webinar 6:00</span><span class="slot empty">—</span><span class="slot">Retreat Prep</span></div>
+          </div>
+          <ul class="quick-list">
+            <li>Calendly consultations</li>
+            <li>Hello Alma sessions</li>
+            <li>Zoom events</li>
+            <li>Synced to iPhone calendar</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><h2>Sales + Products</h2></div>
+          <ul class="quick-list">
+            <li>Sacred Healing Self-Care Set — top performer</li>
+            <li>Sunlit Elixir Body Butter — monitor inventory</li>
+            <li>Healing Bath Salts — campaign candidate</li>
+            <li>Shopify + TikTok Shop daily trend panel</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><h2>Lead + Onboarding</h2></div>
+          <ul class="quick-list">
+            <li>New coaching inquiry queue</li>
+            <li>Auto-response status</li>
+            <li>Consultation booking completion</li>
+            <li>Keep contacts (10,000+) campaign readiness</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><h2>Payments</h2></div>
+          <ul class="quick-list">
+            <li>Stripe overview (Teachable + Hello Alma)</li>
+            <li>PayPal overview (Calendly consults)</li>
+            <li>High-ticket collection error alerts</li>
+            <li>Failed payment follow-up queue</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><h2>Marketing Performance</h2></div>
+          <ul class="quick-list">
+            <li>Meta ad spend + lead capture</li>
+            <li>"healing" DM trigger conversions</li>
+            <li>Email/SMS campaign performance</li>
+            <li>Retreat waitlist growth</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><h2>Operations</h2></div>
+          <ul class="quick-list">
+            <li>Platform status (Shopify, Teachable, Alma)</li>
+            <li>Customer signup error monitoring</li>
+            <li>Staff workload reallocation tracker</li>
+            <li><a href="/SCHEDULING_SYSTEM_BLUEPRINT.md">Open Scheduling Blueprint</a></li>
+          </ul>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="/src/dashboard.js"></script>
+</body>
+</html>
