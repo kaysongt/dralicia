@@ -167,6 +167,32 @@ input:focus, select:focus { outline: none; border-color: var(--brand); }
 }
 .timeline > div strong { color: var(--ink); white-space: nowrap; }
 
+/* ── Dashboard ── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+.dash-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+}
+.dash-card h3 {
+  margin: 0 0 .5rem;
+  font-size: 1rem;
+}
+.dash-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+.dash-card p {
+  color: var(--muted);
+}
+
 /* ── Footer ── */
 footer {
   padding: 2.5rem 0;
@@ -182,9 +208,10 @@ footer .btn:hover { background: var(--brand-dark); }
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 700px) {
   .hero-grid, .split { grid-template-columns: 1fr; }
-  .cards { grid-template-columns: 1fr; }
+  .cards, .dash-grid { grid-template-columns: 1fr; }
   nav { display: none; }
 }
