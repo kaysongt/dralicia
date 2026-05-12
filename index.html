@@ -72,33 +72,10 @@
     </section>
 
     <section id="appointments" class="section alt">
-      <div class="container split">
-        <div>
-          <h2>Automated Onboarding + Scheduling</h2>
-          <p>Replace manual follow-up with automated coaching responses and one synchronized scheduling system.</p>
-          <ul class="checklist">
-            <li>Automated coaching inquiry response with instant booking links</li>
-            <li>Calendly + Hello Alma + Zoom connected to one master calendar</li>
-            <li>Master calendar feeds iPhone Calendar to prevent double bookings</li>
-            <li>Auto reminders, confirmations, and intake tagging by service type</li>
-            <li>Consultation setup: 30 minutes @ $20 with cleaner handoff to therapy/coaching</li>
-          </ul>
-        </div>
-        <form class="form" onsubmit="return false">
-          <h3>Request a Consultation</h3>
-          <label>Name<input type="text" placeholder="Your name" /></label>
-          <label>Email<input type="email" placeholder="you@example.com" /></label>
-          <label>Focus Area
-            <select>
-              <option>Coaching</option>
-              <option>Therapy</option>
-              <option>Products / E-commerce</option>
-              <option>Operations Audit</option>
-            </select>
-          </label>
-          <button class="btn" id="fakeSubmit">Submit Request</button>
-          <small>Next step: connect this form to automation (CRM + calendar + payment routing).</small>
-        </form>
+      <div class="container">
+        <h2>Book an Appointment</h2>
+        <p class="muted">Pick a date and time below — your booking will be added directly to Apple Calendar.</p>
+        <div id="bookingCalendar" style="margin-top:1.5rem"></div>
       </div>
     </section>
 
@@ -377,7 +354,10 @@
         <strong>Dr. Alicia Unified Hub</strong>
         <p>Built for clarity, automation, and growth.</p>
       </div>
-      <a class="btn btn-sm" href="mailto:hello@example.com">Contact Team</a>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+        <a class="btn btn-sm" href="/audit.html">Phase 1 Deliverables</a>
+        <a class="btn btn-sm" href="mailto:hello@example.com">Contact Team</a>
+      </div>
     </div>
   </footer>
 

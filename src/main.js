@@ -1,15 +1,13 @@
 import './style.css'
+import { BookingCalendar } from './calendar.js'
 
-document.getElementById('fakeSubmit')?.addEventListener('click', () => {
-  alert('Great — next step is connecting this form to your CRM or calendar webhook.')
-})
+new BookingCalendar('bookingCalendar')
 
 const announcements = [
   '🌿 Retreat coming soon',
-  '✨ Placeholder announcement — new wellness offerings soon',
-  '🛍️ Placeholder announcement — product updates on the way',
+  '✨ New wellness offerings coming soon',
+  '🛍️ Product updates on the way',
 ]
-
 const announcementText = document.getElementById('announcementText')
 if (announcementText) {
   let index = 0
