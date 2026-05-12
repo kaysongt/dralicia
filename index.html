@@ -24,6 +24,7 @@
       <nav>
         <a href="#ventures">Ventures</a>
         <a href="#products">Products</a>
+        <a href="#ebooks">eBooks</a>
         <a href="#appointments">Appointments</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#contact">Contact</a>
@@ -134,6 +135,133 @@
               ui.createComponent('collection', {
                 id: '301027491928',
                 node: document.getElementById('collection-component-1778614213763'),
+                moneyFormat: '%24%7B%7Bamount%7D%7D',
+                options: {
+          "product": {
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "calc(25% - 20px)",
+                  "margin-left": "20px",
+                  "margin-bottom": "50px",
+                  "width": "calc(25% - 20px)"
+                },
+                "img": {
+                  "height": "calc(100% - 15px)",
+                  "position": "absolute",
+                  "left": "0",
+                  "right": "0",
+                  "top": "0"
+                },
+                "imgWrapper": {
+                  "padding-top": "calc(75% + 15px)",
+                  "position": "relative",
+                  "height": "0"
+                }
+              },
+              "button": {
+                ":hover": { "background-color": "#905d43" },
+                "background-color": "#a0674a",
+                ":focus": { "background-color": "#905d43" }
+              }
+            },
+            "text": { "button": "Add to cart" }
+          },
+          "productSet": {
+            "styles": {
+              "products": {
+                "@media (min-width: 601px)": { "margin-left": "-20px" }
+              }
+            }
+          },
+          "modalProduct": {
+            "contents": {
+              "img": false,
+              "imgWithCarousel": true,
+              "button": false,
+              "buttonWithQuantity": true
+            },
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "100%",
+                  "margin-left": "0px",
+                  "margin-bottom": "0px"
+                }
+              },
+              "button": {
+                ":hover": { "background-color": "#905d43" },
+                "background-color": "#a0674a",
+                ":focus": { "background-color": "#905d43" }
+              }
+            },
+            "text": { "button": "Add to cart" }
+          },
+          "option": {},
+          "cart": {
+            "styles": {
+              "button": {
+                ":hover": { "background-color": "#905d43" },
+                "background-color": "#a0674a",
+                ":focus": { "background-color": "#905d43" }
+              }
+            },
+            "text": { "total": "Subtotal", "button": "Checkout" },
+            "popup": false
+          },
+          "toggle": {
+            "styles": {
+              "toggle": {
+                "background-color": "#a0674a",
+                ":hover": { "background-color": "#905d43" },
+                ":focus": { "background-color": "#905d43" }
+              }
+            }
+          }
+        },
+              });
+            });
+          }
+        })();
+        /*]]>*/
+        </script>
+      </div>
+    </section>
+
+    <section id="ebooks" class="section">
+      <div class="container">
+        <h2>eBooks</h2>
+        <p class="muted">Digital resources to support your wellness journey.</p>
+        <div id='collection-component-1778615399412'></div>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        (function () {
+          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+          if (window.ShopifyBuy) {
+            if (window.ShopifyBuy.UI) {
+              ShopifyBuyInit2();
+            } else {
+              loadScript2();
+            }
+          } else {
+            loadScript2();
+          }
+          function loadScript2() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = scriptURL;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+            script.onload = ShopifyBuyInit2;
+          }
+          function ShopifyBuyInit2() {
+            var client = ShopifyBuy.buildClient({
+              domain: 'nnjnwy-by.myshopify.com',
+              storefrontAccessToken: '7ac9b4070ec6cddf891fdd5f4f5028ab',
+            });
+            ShopifyBuy.UI.onReady(client).then(function (ui) {
+              ui.createComponent('collection', {
+                id: '301218496600',
+                node: document.getElementById('collection-component-1778615399412'),
                 moneyFormat: '%24%7B%7Bamount%7D%7D',
                 options: {
           "product": {
