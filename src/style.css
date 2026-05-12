@@ -21,6 +21,22 @@ body {
 /* ── Layout ── */
 .container { width: min(1100px, 92%); margin: 0 auto; }
 
+/* ── Announcement Bar ── */
+.announcement-bar {
+  background: var(--dark);
+  color: #f3ebcc;
+  border-bottom: 1px solid #2b2618;
+}
+.announcement-inner {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .78rem;
+  letter-spacing: .03em;
+  text-align: center;
+}
+
 /* ── Navbar ── */
 .topbar {
   position: sticky; top: 0;
