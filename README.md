@@ -1,14 +1,22 @@
-# Dr. Alicia Unified Website Hub
+# Dr. Alicia Unified Website Hub (Vite)
 
-Starter site for Dr. Alicia's unified business presence.
-
-## What's included
-- `index.html`: main marketing + operations hub page
-- `styles.css`: responsive styling
-- `script.js`: tiny demo interaction
+Production-ready starter powered by Vite.
 
 ## Run locally
-Open `index.html` directly in a browser.
+```bash
+npm install
+npm run dev
+```
+
+App runs on:
+- Local: `http://localhost:4173`
+- Network/Tailnet-ready bind: `0.0.0.0:4173`
+
+## Build
+```bash
+npm run build
+npm run preview
+```
 
 ## Next implementation steps
 1. Replace placeholder links with live URLs (HelloAlma, Teachable, Shopify, TikTok Shop).
