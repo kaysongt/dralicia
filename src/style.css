@@ -20,7 +20,8 @@ body {
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
 nav a { color: var(--muted); text-decoration: none; margin: 0 .5rem; }
 nav a:hover { color: var(--ink); }
-.brand { font-weight: 800; }
+.brand { font-weight: 800; display: flex; align-items: center; gap: .5rem; }
+.logo { height: 36px; width: auto; }
 .hero { padding: 4rem 0 2rem; }
 .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1.2rem; align-items: start; }
 h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: .3rem 0 .8rem; }
