@@ -11,7 +11,7 @@
 <body>
   <div class="announcement-bar" aria-live="polite">
     <div class="container announcement-inner">
-      <span id="announcementText">🌿 Retreat coming soon</span>
+      <span id="announcementText">🌿 Costa Rica Retreat — Dec 17–21, 2026 &nbsp;·&nbsp; Only 20 spots &nbsp;·&nbsp; <a href="#retreat" style="color:var(--brand);font-weight:700;">Learn More →</a></span>
     </div>
   </div>
 
@@ -23,6 +23,7 @@
       </div>
       <nav>
         <a href="#ventures">Ventures</a>
+        <a href="#retreat">Retreat</a>
         <a href="#products">Products</a>
         <a href="#ebooks">eBooks</a>
         <a href="#appointments">Appointments</a>
@@ -65,8 +66,78 @@
         <div class="cards">
           <article class="card"><h3>Therapy</h3><p>HelloAlma intake and booking portal.</p><a href="#">Connect HelloAlma →</a></article>
           <article class="card"><h3>Courses</h3><p>Teachable catalog with high-ticket offer fixes.</p><a href="#">Connect Teachable →</a></article>
-          <article class="card"><h3>Products</h3><p>Shopify + TikTok Shop for best-sellers.</p><a href="#">Connect Storefronts →</a></article>
-          <article class="card"><h3>Coaching</h3><p>Automated inquiry routing and consult flow.</p><a href="#">Connect Coaching Funnel →</a></article>
+          <article class="card"><h3>Products</h3><p>Shopify + TikTok Shop for best-sellers.</p><a href="#products">Shop Now →</a></article>
+          <article class="card"><h3>Coaching</h3><p>Automated inquiry routing and consult flow.</p><a href="#appointments">Book Consult →</a></article>
+          <article class="card retreat-card"><h3>🌴 Retreat</h3><p>Costa Rica Winter Solstice Wellness Retreat — Dec 2026.</p><a href="#retreat">View Details →</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="retreat" class="section retreat-section">
+      <div class="container">
+        <div class="retreat-hero">
+          <div class="retreat-text">
+            <p class="eyebrow">Winter Solstice Wellness Retreat</p>
+            <h2>Escape to Costa Rica with Dr. Alicia</h2>
+            <p class="lead">5 days of deep healing, ocean medicine, and transformation at Los Sueños Marriott — December 17–21, 2026.</p>
+            <div class="retreat-badges">
+              <span class="rbadge">🌊 Costa Rica</span>
+              <span class="rbadge">📅 Dec 17–21, 2026</span>
+              <span class="rbadge">👥 Only 20 Spots</span>
+              <span class="rbadge">💛 Early Bird Available</span>
+            </div>
+            <div class="hero-actions" style="margin-top:1.5rem">
+              <a class="btn" href="https://escapewithdralicia.lovable.app/" target="_blank">Reserve Your Spot</a>
+              <a class="btn btn-ghost" href="https://escapewithdralicia.lovable.app/" target="_blank">Full Details →</a>
+            </div>
+          </div>
+          <div class="retreat-pricing">
+            <h3>Pricing</h3>
+            <div class="price-row">
+              <div class="price-tier">
+                <div class="tier-name">General</div>
+                <div class="tier-price">From $3,600<span>/person</span></div>
+                <div class="tier-detail">Double room · Save $300 early bird</div>
+              </div>
+              <div class="price-tier vip">
+                <div class="tier-badge">VIP</div>
+                <div class="tier-name">VIP Healing</div>
+                <div class="tier-price">From $4,400<span>/person</span></div>
+                <div class="tier-detail">1:1 with Dr. Alicia · Private catamaran · 6-month integration</div>
+              </div>
+            </div>
+            <p class="tier-note">$500 retainer holds your spot · Flexible payment plans available</p>
+            <a class="btn" style="width:100%;text-align:center;margin-top:.8rem;display:block" href="https://escapewithdralicia.lovable.app/" target="_blank">Secure Your Spot →</a>
+          </div>
+        </div>
+        <div class="retreat-includes">
+          <div class="ri-col">
+            <h4>What's Included</h4>
+            <ul>
+              <li>✓ 4 nights at Los Sueños Marriott</li>
+              <li>✓ 2-day healing workshop + workbook</li>
+              <li>✓ Welcome &amp; closing ceremony dinners</li>
+              <li>✓ Morning rituals &amp; healing circles</li>
+              <li>✓ Ocean medicine activities</li>
+              <li>✓ Integration tools &amp; resources</li>
+            </ul>
+          </div>
+          <div class="ri-col">
+            <h4>VIP Extras</h4>
+            <ul>
+              <li>⭐ Welcome basket</li>
+              <li>⭐ Online course access</li>
+              <li>⭐ 45-min 1:1 with Dr. Alicia</li>
+              <li>⭐ Private catamaran experience</li>
+              <li>⭐ 6-month integration group</li>
+            </ul>
+          </div>
+          <div class="ri-col">
+            <h4>Info Session</h4>
+            <p style="color:var(--muted);font-size:.9rem">Live Q&amp;A via Zoom<br><strong>April 13, 2026 · 8 PM CT</strong></p>
+            <p style="color:var(--muted);font-size:.9rem">Questions?<br><strong>(832) 736-1443</strong></p>
+            <p style="color:var(--muted);font-size:.9rem"><strong>Yasmeen@coachingwithdralicia.com</strong></p>
+          </div>
         </div>
       </div>
     </section>
@@ -360,6 +431,22 @@
       </div>
     </div>
   </footer>
+
+  <!-- Retreat Popup -->
+  <div id="retreatPopup" class="popup-overlay" aria-hidden="true">
+    <div class="popup-card">
+      <button class="popup-close" id="popupClose" aria-label="Close">&#x2715;</button>
+      <div class="popup-badge">🌴 Limited Spots</div>
+      <h3>Costa Rica Retreat</h3>
+      <p class="popup-sub">Dec 17–21, 2026 · Los Sueños Marriott · Only 20 spots</p>
+      <p class="popup-body">Join Dr. Alicia for 5 days of deep healing, ocean medicine, and transformation. Early bird discount available now.</p>
+      <div class="popup-price">From <strong>$3,600</strong> · $500 holds your spot</div>
+      <div class="popup-actions">
+        <a class="btn" href="https://escapewithdralicia.lovable.app/" target="_blank">Reserve My Spot</a>
+        <button class="btn btn-ghost" id="popupDismiss">Maybe Later</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
