@@ -284,6 +284,24 @@ input, select {
 }
 input:focus, select:focus { outline: none; border-color: var(--brand); }
 
+/* ── Calendly Tabs ── */
+.cal-tab-btns { display: flex; gap: .5rem; margin-bottom: 1rem; }
+.cal-tab-btn {
+  padding: .6rem 1.3rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all .15s;
+}
+.cal-tab-btn.active { background: var(--brand); border-color: var(--brand); color: var(--brand-text); }
+.cal-tab-btn:hover:not(.active) { border-color: var(--brand); color: var(--ink); }
+.cal-tab-panel { display: none; }
+.cal-tab-panel.active { display: block; }
+
 /* ── Roadmap ── */
 .timeline { display: grid; gap: .8rem; margin-top: 1.5rem; }
 .timeline > div {

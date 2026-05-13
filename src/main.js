@@ -1,7 +1,4 @@
 import './style.css'
-import { BookingCalendar } from './calendar.js'
-
-new BookingCalendar('bookingCalendar')
 
 // Announcement bar rotation
 const announcements = [
@@ -17,6 +14,16 @@ if (announcementText) {
     announcementText.innerHTML = announcements[index]
   }, 4000)
 }
+
+// Calendly tab switching
+document.querySelectorAll('.cal-tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cal-tab-btn').forEach(b => b.classList.remove('active'))
+    document.querySelectorAll('.cal-tab-panel').forEach(p => p.classList.remove('active'))
+    btn.classList.add('active')
+    document.getElementById('tab-' + btn.dataset.tab)?.classList.add('active')
+  })
+})
 
 // Retreat popup — show after 4 seconds, respect dismiss
 const popup = document.getElementById('retreatPopup')
