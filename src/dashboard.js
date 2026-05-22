@@ -1,4 +1,4 @@
-import './style.css'
+
 
 // Email Summary wiring scaffold (credentials can be connected later)
 // Later: replace `mockEmailSummary` with real fetch from Gmail/IMAP sync service.

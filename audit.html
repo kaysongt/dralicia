@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dr. Alicia — Phase 1 Deliverables</title>
+  <title>Dr. Alicia — Business Audit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -64,14 +64,15 @@
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
   </style>
+  <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
 <div class="page">
   <div class="top-bar">
     <div>
-      <div class="badge">Phase 1 Deliverables</div>
+      <div class="badge">Business Audit</div>
       <h1>Dr. Alicia — Business Audit</h1>
-      <p class="subtitle">Prepared for Heathrow layover review &nbsp;·&nbsp; May 13, 2026</p>
+      <p class="subtitle">Dr. Alicia Unified Wellness Hub</p>
     </div>
     <button class="btn no-print" onclick="window.print()">Print / Save PDF</button>
   </div>
@@ -175,85 +176,8 @@
     </p>
   </div>
 
-  <!-- Credentials Checklist -->
-  <div class="section">
-    <h2>Credentials Checklist — Secure During Layover</h2>
-    <div class="grid2">
-      <div>
-        <h3>Must Have Access To</h3>
-        <ul class="checklist">
-          <li><div class="check-box"></div><div class="check-label">Shopify Admin<div class="check-sub">nnjnwy-by.myshopify.com/admin</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">TikTok Shop Seller Center<div class="check-sub">seller.tiktok.com</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Teachable Admin<div class="check-sub">teachable.com/admin</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">HelloAlma Provider Portal<div class="check-sub">helloalma.com/providers</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Calendly Account<div class="check-sub">calendly.com/app</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Keep / Keap CRM<div class="check-sub">app.keap.com</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Google Account (for Calendar sync)<div class="check-sub">accounts.google.com</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Zoom Account<div class="check-sub">zoom.us/profile</div></div></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Actions to Complete</h3>
-        <ul class="checklist">
-          <li><div class="check-box"></div><div class="check-label">Enable 2FA on Shopify<div class="check-sub">Protects revenue</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Enable 2FA on Teachable<div class="check-sub">Protects course revenue</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Confirm Shopify Storefront token is private<div class="check-sub">Already in use on site</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Reconnect TikTok Shop → Shopify sync<div class="check-sub">Phase 4 revenue</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Connect Calendly to Google Calendar<div class="check-sub">Prevents double booking</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Connect Calendly to Zoom<div class="check-sub">Auto meeting links</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Verify HelloAlma calendar export is on<div class="check-sub">Sync therapy slots</div></div></li>
-          <li><div class="check-box"></div><div class="check-label">Export Keep contact list (backup)<div class="check-sub">10k contacts = major asset</div></div></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Automation Workflow -->
-  <div class="section">
-    <h2>Coaching Onboarding Automation</h2>
-    <p style="margin:0 0 1rem;color:var(--muted);font-size:.9rem">Replace manual outreach with this automated sequence:</p>
-    <div class="flow">
-      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><strong>Lead submits inquiry</strong> — via site form, Meta ad, or DM</div></div>
-      <div class="flow-arrow">↓ triggers immediately</div>
-      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><strong>Auto-reply email</strong> — "Thanks for reaching out! Book your 30-min consultation here: [Calendly link]"</div></div>
-      <div class="flow-arrow">↓ on booking</div>
-      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><strong>Intake form sent</strong> — Calendly sends intake questions before the call. Tagged by service type in Keep.</div></div>
-      <div class="flow-arrow">↓ 24 hrs before</div>
-      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><strong>Auto reminder</strong> — email + SMS reminder with Zoom link</div></div>
-      <div class="flow-arrow">↓ after call</div>
-      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><strong>Follow-up sequence</strong> — Keep sends 3-email nurture sequence routing to correct service (therapy, coaching, or products)</div></div>
-    </div>
-  </div>
-
-  <!-- Meta Ads -->
-  <div class="section">
-    <h2>Meta Ads + Keep Database Strategy</h2>
-    <div class="grid2">
-      <div>
-        <h3>Meta Ad Framework</h3>
-        <ul style="padding-left:1.2rem;color:var(--muted);font-size:.9rem">
-          <li style="margin-bottom:.5rem">Comment trigger: "Type <strong>HEALING</strong> in the comments" → auto-DM with booking link</li>
-          <li style="margin-bottom:.5rem">Retarget website visitors (Shopify pixel + site pixel)</li>
-          <li style="margin-bottom:.5rem">Lookalike audience from Keep's 10k contacts</li>
-          <li style="margin-bottom:.5rem">Lead gen ad → direct to Calendly consultation booking</li>
-          <li style="margin-bottom:.5rem">Separate ad sets per service: therapy, coaching, products</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Keep Database (10k Contacts)</h3>
-        <ul style="padding-left:1.2rem;color:var(--muted);font-size:.9rem">
-          <li style="margin-bottom:.5rem">Segment by: therapy leads, coaching leads, product buyers, cold</li>
-          <li style="margin-bottom:.5rem">Activate dormant sequences for cold contacts first (re-engagement)</li>
-          <li style="margin-bottom:.5rem">Tag new bookings by service type automatically</li>
-          <li style="margin-bottom:.5rem">Export list → upload to Meta as Custom Audience</li>
-          <li style="margin-bottom:.5rem">Monthly list hygiene — remove bounces to protect deliverability</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
   <p style="text-align:center;color:var(--muted);font-size:.8rem;margin-top:2rem">
-    Dr. Alicia Unified Hub &nbsp;·&nbsp; Phase 1 Deliverables &nbsp;·&nbsp; Prepared May 2026
+    Dr. Alicia Unified Hub
   </p>
 </div>
 </body>
