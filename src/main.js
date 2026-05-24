@@ -1,4 +1,3 @@
-import './style.css'
 
 // Announcement bar rotation
 const announcements = [
