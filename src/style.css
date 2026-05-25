@@ -678,3 +678,40 @@ footer .btn:hover { background: var(--brand-dark); }
   line-height: 1.6;
   resize: vertical;
 }
+
+/* Week tabs */
+.sched-week-tabs { display:flex; gap:.4rem; margin:1.2rem 0 0; flex-wrap:wrap; }
+.sched-week-tab {
+  padding:.35rem 1rem; border:1.5px solid var(--line); border-radius:6px;
+  background:transparent; cursor:pointer; font-size:.82rem; font-weight:700;
+  color:var(--muted); transition:all .15s; font-family:inherit;
+}
+.sched-week-tab:hover:not(.active) { border-color:var(--brand); color:var(--ink); }
+.sched-week-tab.active { background:var(--brand); border-color:var(--brand); color:var(--brand-text); }
+.sched-week-panel { display:none; }
+.sched-week-panel.active { display:block; }
+
+/* Card header row */
+.sc-header { display:flex; justify-content:space-between; align-items:flex-start; gap:.4rem; flex-wrap:wrap; }
+.sc-meta { display:flex; align-items:center; gap:.3rem; flex-shrink:0; }
+.sc-owner {
+  font-size:.65rem; font-weight:800; padding:.12rem .4rem; border-radius:4px;
+  text-transform:uppercase; letter-spacing:.05em;
+}
+.owner-yaya { background:#ede9fe; color:#5b21b6; }
+.owner-you  { background:#fef3c7; color:#92400e; }
+
+/* Status toggle button */
+.sc-status-btn {
+  font-size:.65rem; font-weight:800; padding:.12rem .5rem; border-radius:4px;
+  border:none; cursor:pointer; text-transform:uppercase; letter-spacing:.05em;
+  font-family:inherit; transition:background .12s;
+}
+.sc-status-btn[data-status="todo"]  { background:#f1f5f9; color:#64748b; }
+.sc-status-btn[data-status="doing"] { background:#fef3c7; color:#92400e; }
+.sc-status-btn[data-status="done"]  { background:#dcfce7; color:#166534; }
+
+/* Asset prompt */
+.sc-asset-prompt { font-size:.7rem; color:var(--muted); margin-top:.55rem; line-height:1.45; }
+.sc-asset-prompt strong { color:var(--ink); }
+.sc-detail-body { padding-top:.4rem; }

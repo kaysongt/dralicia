@@ -30,3 +30,26 @@ function renderEmailSummary(summary = mockEmailSummary) {
 }
 
 renderEmailSummary()
+
+// Week tab switching
+document.querySelectorAll('.sched-week-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sched-week-tab').forEach(t => t.classList.remove('active'))
+    document.querySelectorAll('.sched-week-panel').forEach(p => p.classList.remove('active'))
+    tab.classList.add('active')
+    document.getElementById('sched-week-' + tab.dataset.week)?.classList.add('active')
+  })
+})
+
+// Status toggle — cycles todo → doing → done → todo, persists via localStorage
+document.querySelectorAll('.sc-status-btn').forEach(btn => {
+  const id = btn.closest('.sched-card').dataset.id
+  const saved = localStorage.getItem('sc-' + id)
+  if (saved) { btn.dataset.status = saved; btn.textContent = saved }
+  btn.addEventListener('click', () => {
+    const next = { todo: 'doing', doing: 'done', done: 'todo' }[btn.dataset.status] || 'todo'
+    btn.dataset.status = next
+    btn.textContent = next
+    localStorage.setItem('sc-' + id, next)
+  })
+})
