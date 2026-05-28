@@ -489,6 +489,34 @@ footer p { color: #a09880; margin: .2rem 0 0; font-size: .9rem; }
 footer .btn { background: var(--brand); color: var(--brand-text); }
 footer .btn:hover { background: var(--brand-dark); }
 
+/* ── Shopify Product Fixes ── */
+.shopify-buy__product__actual-price {
+  color: var(--ink) !important;
+  font-weight: 700 !important;
+}
+.shopify-buy__product__compare-price {
+  text-decoration: line-through !important;
+  color: var(--muted) !important;
+  font-size: .9em !important;
+}
+/* Fix orphan card with 5-item grid */
+.shopify-buy__product {
+  max-width: calc(20% - 20px) !important;
+  width: calc(20% - 20px) !important;
+}
+@media (max-width: 960px) {
+  .shopify-buy__product {
+    max-width: calc(33.333% - 20px) !important;
+    width: calc(33.333% - 20px) !important;
+  }
+}
+@media (max-width: 700px) {
+  .shopify-buy__product {
+    max-width: calc(50% - 20px) !important;
+    width: calc(50% - 20px) !important;
+  }
+}
+
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
