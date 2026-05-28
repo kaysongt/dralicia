@@ -24,3 +24,4 @@ npm run preview
 3. Add real booking integration (Calendly/Google Calendar + iPhone sync flow).
 4. Add Stripe payment links/checkout routes and test mode.
 5. Deploy to Vercel/Netlify/GitHub Pages.
+6. Set up analytics (Google Analytics or Plausible).

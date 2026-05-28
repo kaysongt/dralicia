@@ -1,4 +1,3 @@
-import './style.css'
 
 // Announcement bar rotation
 const announcements = [
@@ -15,7 +14,7 @@ if (announcementText) {
   }, 4000)
 }
 
-// Calendly tab switching
+// Cal.com tab switching
 document.querySelectorAll('.cal-tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.cal-tab-btn').forEach(b => b.classList.remove('active'))
