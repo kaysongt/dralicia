@@ -76,8 +76,8 @@ nav a:hover { color: var(--ink); }
 
 /* ── Hero ── */
 .hero {
-  padding: 6rem 0 5rem;
-  background: linear-gradient(145deg, #1a1810 0%, #2d2416 40%, #3a2e1a 100%);
+  padding: 6rem 0 0;
+  background: linear-gradient(120deg, #1a1810 0%, #2d2416 55%, #f5c11a 100%);
   border-bottom: none;
   position: relative;
   overflow: hidden;
@@ -86,16 +86,7 @@ nav a:hover { color: var(--ink); }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(245,197,24,.13) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent, var(--bg));
+  background: radial-gradient(ellipse 55% 80% at 78% 100%, #f5c518 0%, rgba(245,197,24,.25) 40%, transparent 70%);
   pointer-events: none;
 }
 .hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: flex-end; position: relative; z-index: 1; }
@@ -112,9 +103,11 @@ nav a:hover { color: var(--ink); }
   max-width: 420px;
   display: block;
   mix-blend-mode: multiply;
-  filter: brightness(1.08) contrast(1.05);
+  filter: brightness(1.0) contrast(1.02) saturate(1.05);
   object-fit: contain;
   object-position: bottom center;
+  position: relative;
+  z-index: 1;
 }
 .hero h1 { color: #fff; }
 .hero .lead { color: rgba(255,255,255,.72); }
