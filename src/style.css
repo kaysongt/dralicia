@@ -98,7 +98,24 @@ nav a:hover { color: var(--ink); }
   background: linear-gradient(to bottom, transparent, var(--bg));
   pointer-events: none;
 }
-.hero-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; max-width: 720px; position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: flex-end; position: relative; z-index: 1; }
+.hero-content { padding-bottom: 3rem; }
+.hero-image-wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+.hero-portrait {
+  width: 100%;
+  max-width: 420px;
+  display: block;
+  mix-blend-mode: multiply;
+  filter: brightness(1.08) contrast(1.05);
+  object-fit: contain;
+  object-position: bottom center;
+}
 .hero h1 { color: #fff; }
 .hero .lead { color: rgba(255,255,255,.72); }
 h1 { font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1.06; margin: .4rem 0 1rem; letter-spacing: -.025em; }
@@ -619,8 +636,11 @@ footer .btn:hover { background: var(--brand-dark); }
   .calendar-panel { grid-column: span 2; }
 }
 @media (max-width: 700px) {
-  .hero { padding: 4rem 0 4rem; }
-  .hero-grid, .split, .dash-layout { grid-template-columns: 1fr; }
+  .hero { padding: 4rem 0 0; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-content { padding-bottom: 1.5rem; }
+  .hero-portrait { max-width: 280px; margin: 0 auto; }
+  .split, .dash-layout { grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr 1fr; }
   .kpi-grid { grid-template-columns: 1fr 1fr; }
   .calendar-panel { grid-column: span 1; }
