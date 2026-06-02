@@ -246,27 +246,61 @@
 
     <section id="appointments" class="section alt">
       <div class="container">
-        <h2>Book an Appointment</h2>
-        <p class="muted">Select a session type below. Bookings sync automatically to Apple Calendar.</p>
+        <h2>Book a Consultation</h2>
+        <p class="muted">30-minute consultation · $20 · Choose your path below. Syncs automatically to Apple Calendar.</p>
         <div class="cal-tabs" style="margin-top:1.5rem">
           <div class="cal-tab-btns">
-            <button class="cal-tab-btn active" data-tab="consult">Website Building Consultation</button>
-            <button class="cal-tab-btn" data-tab="coaching">General Consultation</button>
+            <button class="cal-tab-btn active" data-tab="consult">Individual Coaching</button>
+            <button class="cal-tab-btn" data-tab="coaching">Couples Coaching</button>
           </div>
           <div class="cal-tab-panel active" id="tab-consult">
-            <div class="calendly-inline-widget"
-              data-url="https://calendly.com/messagewasdeleted/30min?hide_gdpr_banner=1&primary_color=f5c518"
-              style="min-width:320px;height:700px;"></div>
+            <div id="cal-inline-consult" style="min-width:320px;height:700px;overflow:scroll"></div>
           </div>
           <div class="cal-tab-panel" id="tab-coaching">
-            <div class="calendly-inline-widget"
-              data-url="https://calendly.com/messagewasdeleted/30min?hide_gdpr_banner=1&primary_color=f5c518"
-              style="min-width:320px;height:700px;"></div>
+            <div id="cal-inline-coaching" style="min-width:320px;height:700px;overflow:scroll"></div>
           </div>
         </div>
       </div>
     </section>
-    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script type="text/javascript">
+      (function (C, A, L) {
+        let p = function (a, ar) { a.q.push(ar); };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal; let ar = arguments;
+          if (!cal.loaded) { cal.loaded = true; cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; }
+          if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = cal.ns[namespace] || api) && p(cal.ns[namespace], ar) && p(cal, ["-", namespace, ar]) : p(cal, ar); return; }
+          p(cal, ar);
+        };
+        C.Cal.q = C.Cal.q || [];
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+
+      Cal("init", "consult", { origin: "https://cal.com" });
+      Cal.ns.consult("inline", {
+        elementOrSelector: "#cal-inline-consult",
+        calLink: "dralicia/individual-coaching-session",
+        layout: "month_view"
+      });
+      Cal.ns.consult("ui", {
+        theme: "dark",
+        styles: { branding: { brandColor: "#f5c518" } },
+        hideEventTypeDetails: false,
+        layout: "month_view"
+      });
+
+      Cal("init", "coaching", { origin: "https://cal.com" });
+      Cal.ns.coaching("inline", {
+        elementOrSelector: "#cal-inline-coaching",
+        calLink: "dralicia/couples-coaching-session",
+        layout: "month_view"
+      });
+      Cal.ns.coaching("ui", {
+        theme: "dark",
+        styles: { branding: { brandColor: "#f5c518" } },
+        hideEventTypeDetails: false,
+        layout: "month_view"
+      });
+    </script>
 
     <section class="section testimonials-section">
       <div class="container">
