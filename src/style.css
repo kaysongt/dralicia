@@ -76,8 +76,8 @@ nav a:hover { color: var(--ink); }
 
 /* ── Hero ── */
 .hero {
-  padding: 6rem 0 0;
-  background: linear-gradient(120deg, #1a1810 0%, #2d2416 55%, #f5c11a 100%);
+  padding: 5rem 0 0;
+  background: linear-gradient(145deg, #1a1810 0%, #2d2416 50%, #3a2e1a 100%);
   border-bottom: none;
   position: relative;
   overflow: hidden;
@@ -86,29 +86,32 @@ nav a:hover { color: var(--ink); }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 55% 80% at 78% 100%, #f5c518 0%, rgba(245,197,24,.25) 40%, transparent 70%);
+  background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(245,197,24,.1) 0%, transparent 70%);
   pointer-events: none;
 }
-.hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: flex-end; position: relative; z-index: 1; }
-.hero-content { padding-bottom: 3rem; }
-.hero-image-wrap {
-  position: relative;
-  display: flex;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 1.5rem;
   align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-}
-.hero-portrait {
-  width: 100%;
-  max-width: 420px;
-  display: block;
-  mix-blend-mode: multiply;
-  filter: brightness(1.0) contrast(1.02) saturate(1.05);
-  object-fit: contain;
-  object-position: bottom center;
   position: relative;
   z-index: 1;
 }
+.hero-content { padding-bottom: 4rem; text-align: center; }
+.hero-content .hero-actions { justify-content: center; }
+.hero-image-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.hero-portrait {
+  width: 100%;
+  max-width: 320px;
+  display: block;
+  object-fit: contain;
+  object-position: bottom center;
+}
+.hero-portrait--flip { transform: scaleX(-1); }
 .hero h1 { color: #fff; }
 .hero .lead { color: rgba(255,255,255,.72); }
 h1 { font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1.06; margin: .4rem 0 1rem; letter-spacing: -.025em; }
@@ -674,11 +677,15 @@ footer .btn:hover { background: var(--brand-dark); }
   .dash-layout { grid-template-columns: 1fr 1fr; }
   .calendar-panel { grid-column: span 2; }
 }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 240px 1fr 240px; }
+}
 @media (max-width: 700px) {
-  .hero { padding: 4rem 0 0; }
-  .hero-grid { grid-template-columns: 1fr; }
-  .hero-content { padding-bottom: 1.5rem; }
-  .hero-portrait { max-width: 280px; margin: 0 auto; }
+  .hero { padding: 3.5rem 0 0; }
+  .hero-grid { grid-template-columns: 1fr; text-align: center; }
+  .hero-image-wrap--left { display: none; }
+  .hero-content { padding-bottom: 1rem; }
+  .hero-portrait { max-width: 260px; margin: 0 auto; }
   .split, .dash-layout { grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr 1fr; }
   .kpi-grid { grid-template-columns: 1fr 1fr; }
