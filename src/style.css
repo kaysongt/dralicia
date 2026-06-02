@@ -489,6 +489,52 @@ input:focus, select:focus { outline: none; border-color: var(--brand); }
 .quick-list { margin: .7rem 0 0; padding-left: 1rem; color: var(--muted); }
 .quick-list li { margin: .35rem 0; }
 
+/* ── Testimonials ── */
+.testimonials-section { background: linear-gradient(160deg, #1a1810 0%, #2d2416 100%); }
+.testimonials-section h2 { color: #fff; }
+.testimonials-section .muted { color: rgba(255,255,255,.5); }
+.testimonials-section .eyebrow { background: var(--brand); color: var(--brand-text); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+.tcard {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  transition: transform .2s, border-color .2s;
+}
+.tcard:hover { transform: translateY(-4px); border-color: rgba(245,197,24,.4); }
+.tcard--featured {
+  background: rgba(245,197,24,.08);
+  border-color: rgba(245,197,24,.3);
+}
+.tcard-stars { color: var(--brand); font-size: 1rem; letter-spacing: .05em; }
+.tcard-title { margin: 0; font-size: 1rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: .03em; }
+.tcard-body { margin: 0; font-size: .92rem; color: rgba(255,255,255,.65); line-height: 1.65; flex: 1; }
+.tcard-author { display: flex; align-items: center; gap: .75rem; margin-top: .4rem; }
+.tcard-author strong { color: #fff; font-size: .92rem; }
+.tcard-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+  letter-spacing: .03em;
+}
+.tcard-avatar--pink { background: #e879a0; }
+.tcard-avatar--gold { background: var(--brand); color: var(--brand-text); }
+.tcard-avatar--orange { background: #f97316; }
+@media (max-width: 700px) {
+  .testimonials-grid { grid-template-columns: 1fr; }
+}
+
 /* ── Retreat Section ── */
 .retreat-section { background: linear-gradient(160deg, #fff8e1 0%, #faf9f6 50%); }
 .retreat-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem; align-items: start; margin-bottom: 2rem; }
