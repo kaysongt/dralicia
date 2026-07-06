@@ -810,29 +810,145 @@ footer .btn:hover { background: var(--brand-dark); }
   color: var(--muted) !important;
   font-size: .9em !important;
 }
-/* Real CSS grid for product cards instead of Shopify's floaty layout */
-.shopify-buy__collection-products {
+/* Single unified grid across the collection AND the individually-embedded
+   products (journal, gift card) so all 7 wrap onto shared rows.
+   The embeds use iframe:false (set in index.html) so every card is a real
+   .shopify-buy__product in the page DOM. Shopify nests the 5 collection cards
+   under .shopify-buy__collection > .shopify-buy__collection-products, so those
+   wrappers (and the 3 component <div>s) are flattened with display:contents
+   until each card is a direct grid item of .products-grid.
+   Verified against the rendered DOM with headless Chromium. */
+.products-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  /* minmax(0,1fr) lets tracks shrink below card min-content so the grid
+     never blows out past its container */
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 1.5rem !important;
-  margin: 2rem 0 0 !important;
+  margin-top: 2rem;
 }
-.shopify-buy__collection-products .shopify-buy__collection-product-wrapper,
-.shopify-buy__collection-products .shopify-buy__product {
+@media (max-width: 760px) {
+  .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: minmax(0, 1fr) !important; }
+}
+.products-grid > div,
+.products-grid .shopify-buy-frame,
+.products-grid .shopify-buy__collection,
+.products-grid .shopify-buy__collection-products {
+  display: contents !important;
+}
+.products-grid .shopify-buy__product {
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
   margin: 0 !important;
 }
-.featured-products {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-  gap: 1.5rem !important;
+/* The collection holds exactly 5 products (all fit on page 1), but the
+   un-iframed collection component still renders a "Next page" button that
+   leads nowhere — hide it. (If the catalog ever outgrows one page, remove
+   this rule to restore pagination.) */
+.products-grid .shopify-buy__collection-pagination-button { display: none !important; }
+
+/* Product cards styled to match the rest of the site (white card, shadow, hover lift) */
+.shopify-buy__product {
+  background: var(--card) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 20px !important;
+  padding: 1.1rem 1.1rem 1.4rem !important;
+  box-shadow: 0 4px 20px rgba(26,24,16,.06) !important;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
-.featured-products .shopify-buy__product {
+.shopify-buy__product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(26,24,16,.12) !important;
+  border-color: var(--brand) !important;
+}
+.shopify-buy__product__variant-img,
+.shopify-buy__product-img,
+.shopify-buy__product__image-wrapper img,
+.shopify-buy__product__image img,
+.shopify-buy__product img {
   width: 100% !important;
   max-width: 100% !important;
-  margin: 0 !important;
+  height: auto !important;
+  border-radius: 14px !important;
+  aspect-ratio: 1 / 1;
+  object-fit: cover !important;
+  display: block !important;
 }
+.shopify-buy__product__title {
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  font-size: .98rem !important;
+  line-height: 1.3 !important;
+  margin: .9rem 0 .3rem !important;
+  letter-spacing: -.01em !important;
+}
+.shopify-buy__product__price {
+  margin-bottom: .8rem !important;
+  font-size: 1rem !important;
+}
+/* iframe:false drops Shopify's default stylesheet, so re-hide the a11y
+   "Regular price"/"Sale price" labels that are meant to be visually hidden */
+.products-grid .visuallyhidden {
+  position: absolute !important;
+  width: 1px !important; height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important; padding: 0 !important; margin: -1px !important;
+}
+/* Variant dropdown (e.g. gift-card denominations): style the <select> and
+   shrink Shopify's caret SVG, which otherwise renders full-card-width */
+.products-grid .shopify-buy__product__variant-selectors { margin-top: auto !important; }
+.products-grid .shopify-buy__option-select__label:not(.visuallyhidden) {
+  display: block !important;
+  font-size: .8rem !important;
+  color: var(--muted) !important;
+  margin-bottom: .35rem !important;
+}
+.products-grid .shopify-buy__option-select-wrapper { position: relative !important; }
+.products-grid .shopify-buy__option-select__select {
+  width: 100% !important;
+  padding: .6rem 2rem .6rem .75rem !important;
+  border: 1.5px solid var(--line) !important;
+  border-radius: 8px !important;
+  background: var(--bg) !important;
+  font-size: .88rem !important;
+  color: var(--ink) !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+}
+.products-grid .shopify-buy__option-select-wrapper svg,
+.products-grid .shopify-buy__select-icon {
+  position: absolute !important;
+  right: .75rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 12px !important;
+  height: 12px !important;
+  pointer-events: none !important;
+}
+/* Add-to-cart button: match the site's primary (gold) button, full width */
+.shopify-buy__btn {
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  font-size: .9rem !important;
+}
+.products-grid .shopify-buy__btn-wrapper { margin-top: .3rem !important; }
+.products-grid .shopify-buy__btn {
+  background: var(--brand) !important;
+  color: var(--brand-text) !important;
+  padding: .75rem 1.2rem !important;
+  width: 100% !important;
+}
+.products-grid .shopify-buy__btn:hover { background: var(--brand-dark) !important; }
 
 /* ── Responsive ── */
 @media (max-width: 960px) {
