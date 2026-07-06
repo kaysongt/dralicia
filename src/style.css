@@ -810,22 +810,28 @@ footer .btn:hover { background: var(--brand-dark); }
   color: var(--muted) !important;
   font-size: .9em !important;
 }
-/* Fix orphan card with 5-item grid */
-.shopify-buy__product {
-  max-width: calc(20% - 20px) !important;
-  width: calc(20% - 20px) !important;
+/* Real CSS grid for product cards instead of Shopify's floaty layout */
+.shopify-buy__collection-products {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1.5rem !important;
+  margin: 2rem 0 0 !important;
 }
-@media (max-width: 960px) {
-  .shopify-buy__product {
-    max-width: calc(33.333% - 20px) !important;
-    width: calc(33.333% - 20px) !important;
-  }
+.shopify-buy__collection-products .shopify-buy__collection-product-wrapper,
+.shopify-buy__collection-products .shopify-buy__product {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
 }
-@media (max-width: 700px) {
-  .shopify-buy__product {
-    max-width: calc(50% - 20px) !important;
-    width: calc(50% - 20px) !important;
-  }
+.featured-products {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+.featured-products .shopify-buy__product {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
 }
 
 /* ── Responsive ── */
