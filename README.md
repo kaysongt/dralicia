@@ -1,27 +1,22 @@
-# Dr. Alicia Unified Website Hub (Vite)
+# Dr. Alicia Unified Website Hub
 
-Production-ready starter powered by Vite.
+Static HTML/CSS/JS site, deployed to GitHub Pages.
 
 ## Run locally
-```bash
-npm install
-npm run dev
-```
 
-App runs on:
-- Local: `http://localhost:4173`
-- Network/Tailnet-ready bind: `0.0.0.0:4173`
-
-## Build
+No build step required — just serve the folder, e.g.:
 ```bash
-npm run build
-npm run preview
+npx serve .
 ```
+or open `index.html` directly in a browser.
+
+## Deploy
+
+Pushes to `main` trigger `.github/workflows/jekyll-gh-pages.yml`, which builds
+with GitHub's Jekyll action and publishes to GitHub Pages (custom domain via `CNAME`).
 
 ## Next implementation steps
 1. Replace placeholder links with live URLs (HelloAlma, Teachable, Shopify, TikTok Shop).
 2. Connect form submission to CRM/webhook (Keep, Zapier, Make, or direct API).
-3. Add real booking integration (Calendly/Google Calendar + iPhone sync flow).
-4. Add Stripe payment links/checkout routes and test mode.
-5. Deploy to Vercel/Netlify/GitHub Pages.
-6. Set up analytics (Google Analytics or Plausible).
+3. Add Stripe payment links/checkout routes and test mode.
+4. Set up analytics (Google Analytics or Plausible).
