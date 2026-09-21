@@ -65,7 +65,7 @@ nav a:hover::after { transform: scaleX(1); }
 .brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: .55rem; }
 .brand-link { text-decoration: none; color: var(--ink); }
 .brand-link:hover { opacity: .92; }
-.logo { height: 40px; width: auto; }
+.logo { height: 54px; width: auto; }
 
 /* ── Buttons ── */
 .btn {
@@ -1070,7 +1070,7 @@ footer .btn:hover { background: var(--brand-dark); }
   .priority-form-wrap { padding: 1.3rem; }
   .arizona-page .nav { gap: .5rem; }
   .arizona-page .brand { font-size: 1rem; }
-  .arizona-page .logo { height: 32px; }
+  .arizona-page .logo { height: 42px; }
 }
 @media (max-width: 380px) {
   .priority-name-row { grid-template-columns: 1fr; gap: 0; }
