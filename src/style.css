@@ -982,3 +982,101 @@ footer .btn:hover { background: var(--brand-dark); }
 @media (max-width: 480px) {
   .cards { grid-template-columns: 1fr; }
 }
+
+/* Retreat editions: extend the existing gold, cream, and ink palette. */
+.announcement-link { color: #f3ebcc; text-decoration: none; display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1rem; padding: .7rem 0; font-size: .9rem; }
+.announcement-link strong { color: var(--brand); }
+.announcement-link:hover { text-decoration: underline; text-underline-offset: .2em; }
+.retreat-editions { display: flex; flex-wrap: wrap; gap: .7rem; padding: 1.3rem 0; margin: 0 0 1rem; }
+.retreat-editions a { margin: 0; padding: .8rem 1.4rem; }
+.retreat-editions a::after { display: none; }
+.retreat-arizona-promo { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.8rem 0 2.2rem; margin-bottom: 2.5rem; border-bottom: 1px solid #ccc3a6; }
+.retreat-arizona-promo h3 { font-size: 1.55rem; margin: 0 0 .6rem; }
+.retreat-arizona-promo p { margin: .4rem 0; }
+.retreat-arizona-promo .hero-actions { flex-shrink: 0; }
+#retreat, #costa-rica, #venue, #priority-list, #questions { scroll-margin-top: 105px; }
+.skip-link { position: absolute; top: -100px; left: 1rem; z-index: 100; padding: .75rem; background: var(--brand); color: var(--ink); }
+.skip-link:focus { top: .5rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.arizona-page [hidden] { display: none !important; }
+.arizona-page a { text-underline-offset: .2em; }
+.arizona-page a:focus-visible, .arizona-page button:focus-visible, .arizona-page summary:focus-visible, .retreat-editions a:focus-visible, .announcement-link:focus-visible { outline: 3px solid #8f6500; outline-offset: 4px; }
+.arizona-page .retreat-editions { margin-bottom: 0; }
+.arizona-hero { background: var(--dark); color: #faf9f6; padding: 4rem 0; }
+.arizona-hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .8fr); align-items: center; gap: 4rem; }
+.arizona-hero h1 { font-size: clamp(2.4rem, 4.8vw, 4rem); line-height: 1.08; letter-spacing: -.035em; margin: 0 0 1.5rem; text-wrap: balance; }
+.arizona-intro { font-size: clamp(1.4rem, 2.3vw, 1.85rem); line-height: 1.4; color: #f5d36b; margin: 0 0 1.4rem; }
+.arizona-hero-description { color: #ded9c9; font-size: 1.05rem; max-width: 47ch; }
+.arizona-hero .hero-actions { margin-top: 1.8rem; }
+.arizona-launch { color: #c4bdab; font-size: .85rem; margin-top: 1.3rem; max-width: 48ch; }
+.arizona-portrait { margin: 0; }
+.arizona-portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; }
+.arizona-portrait figcaption { font-size: .8rem; color: #c4bdab; margin-top: .6rem; }
+.arizona-venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.arizona-page h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.18; letter-spacing: -.025em; text-wrap: balance; margin-top: 0; }
+.arizona-page h3 { font-size: 1.2rem; line-height: 1.35; }
+.arizona-page address { font-style: normal; color: var(--muted); }
+.arizona-venue-details { padding-top: .15rem; }
+.arizona-venue-details h3 { margin: 0 0 .5rem; }
+.arizona-venue-details h3:not(:first-child) { margin-top: 2rem; }
+.arizona-page .text-link, .arizona-questions a, .priority-help a { color: #665000; font-weight: 600; }
+.arizona-signup-section { background: #f0ecdf; }
+.arizona-signup-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; align-items: start; }
+.arizona-facts { margin: 2rem 0 1.5rem; }
+.arizona-facts > div { padding: .9rem 0; border-bottom: 1px solid #d0c8b2; }
+.arizona-facts dt { font-size: .85rem; color: var(--muted); }
+.arizona-facts dd { font-size: 1.2rem; font-weight: 700; margin: .2rem 0 0; font-variant-numeric: tabular-nums; }
+.interest-count { font-weight: 600; }
+.priority-form-wrap { background: #fff; padding: 2rem; border-radius: 12px; }
+.priority-form-wrap h3 { margin-top: 0; }
+.priority-form-wrap p { font-size: .9rem; }
+.priority-form-wrap fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.priority-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.priority-form-wrap label { display: block; font-size: .88rem; font-weight: 600; margin: 1rem 0 .4rem; }
+.priority-form-wrap input:not([type="checkbox"]) { width: 100%; min-height: 48px; border: 1px solid #948b72; background: #fff; color: var(--ink); padding: .7rem .8rem; border-radius: 6px; font: inherit; caret-color: #7b5e00; }
+.priority-form-wrap input:focus-visible { outline: 3px solid #8f6500; outline-offset: 2px; }
+.priority-form-wrap .priority-consent { display: flex; align-items: flex-start; gap: .65rem; font-size: .82rem; font-weight: 400; margin: 1.2rem 0; }
+.priority-consent input { width: 18px; height: 18px; flex-shrink: 0; margin: .15rem 0 0; accent-color: #8f6500; }
+.priority-form-wrap .btn { width: 100%; text-align: center; font-family: inherit; }
+.priority-form-wrap button:disabled, .priority-form-wrap fieldset:disabled button { opacity: .6; cursor: wait; transform: none; }
+.form-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.priority-help { color: var(--muted); overflow-wrap: anywhere; }
+#priority-status:empty { margin: 0; }
+#priority-status:not(:empty) { padding: .8rem 0; font-weight: 600; }
+#priority-status.is-error { color: #a51e19; }
+.arizona-questions { max-width: 800px; }
+.arizona-questions details { border-bottom: 1px solid #d0c8b2; padding: 1.2rem 0; }
+.arizona-questions summary { cursor: pointer; font-weight: 600; padding-right: 1rem; }
+.arizona-questions details p { color: var(--muted); margin-bottom: .2rem; }
+.arizona-page .foot-copy a { color: inherit; }
+.cozy-credit { text-align: center; padding: 1rem; border-top: 1px solid #4a4538; }
+.cozy-credit a { display: inline-flex; align-items: center; gap: .5rem; color: #c4bdab; text-decoration: none; font-size: .8rem; }
+.cozy-credit img { border-radius: 5px; object-fit: cover; }
+.arizona-page ::selection { background: var(--brand); color: var(--ink); }
+@media (max-width: 900px) {
+  .arizona-hero-grid, .arizona-venue-grid, .arizona-signup-grid { gap: 2rem; }
+  .retreat-arizona-promo { align-items: flex-start; flex-direction: column; gap: .6rem; }
+  .arizona-nav { display: none; }
+}
+@media (max-width: 700px) {
+  .retreat-editions { display: flex; }
+  .retreat-editions a { font-size: .86rem; padding: .7rem 1rem; }
+  .announcement-link { gap: .15rem .6rem; font-size: .82rem; }
+  .arizona-hero { padding: 2.5rem 0; }
+  .arizona-hero-grid, .arizona-venue-grid, .arizona-signup-grid { grid-template-columns: 1fr; }
+  .arizona-portrait { max-width: 350px; }
+  .arizona-portrait img { aspect-ratio: 1 / 1; object-position: center 25%; }
+  .arizona-page .section { padding: 3rem 0; }
+  .priority-form-wrap { padding: 1.3rem; }
+  .arizona-page .nav { gap: .5rem; }
+  .arizona-page .brand { font-size: 1rem; }
+  .arizona-page .logo { height: 32px; }
+}
+@media (max-width: 380px) {
+  .priority-name-row { grid-template-columns: 1fr; gap: 0; }
+  .arizona-page .brand { font-size: .9rem; }
+  .arizona-page .nav > .btn { padding: .55rem .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arizona-page *, .announcement-link, .retreat-editions * { scroll-behavior: auto !important; transition: none !important; }
+}

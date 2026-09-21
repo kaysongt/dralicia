@@ -11,6 +11,14 @@
     gtag('js', new Date());
     gtag('config', 'G-GZKMPPY7K1');
   </script>
+  <title>Dr. Alicia Watkins | Coaching, Wellness &amp; Retreats</title>
+  <meta name="description" content="Explore therapy, coaching, wellness products, and the Costa Rica and Arizona retreat editions with Dr. Alicia Watkins." />
+  <link rel="canonical" href="https://draliciawatkins.com/" />
+  <meta property="og:title" content="Dr. Alicia Watkins | Coaching, Wellness &amp; Retreats" />
+  <meta property="og:description" content="Explore Dr. Alicia’s wellness offerings and join the Arizona retreat priority list. Maximum 12 guests." />
+  <meta property="og:url" content="https://draliciawatkins.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://draliciawatkins.com/src/dralicia-about.jpg" />
   <title>Dr. Alicia | Unified Wellness Hub</title>
   <link rel="icon" type="image/png" sizes="32x32" href="src/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="src/favicon-16x16.png">
@@ -22,9 +30,13 @@
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
-  <div class="announcement-bar" aria-live="polite">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="announcement-bar">
     <div class="container announcement-inner">
-      <span id="announcementText">🌿 Costa Rica Retreat — Dec 17–21, 2026 &nbsp;·&nbsp; Only 20 spots &nbsp;·&nbsp; <a href="#retreat" style="color:var(--brand);font-weight:700;">Learn More →</a></span>
+      <a class="announcement-link" href="/arizona-retreat.html">
+        <strong>Explore the Arizona Wellness Retreat</strong>
+        <span>Carefree, Arizona · 12 guests maximum · Join the priority list →</span>
+      </a>
     </div>
   </div>
 
@@ -37,7 +49,7 @@
       <nav>
         <a href="#about">About</a>
         <a href="#ventures">Services</a>
-        <a href="#retreat">Retreat</a>
+        <a href="#retreat">Retreats</a>
         <a href="#products">Products</a>
         <a href="#ebooks">eBooks</a>
         <a href="#appointments">Appointments</a>
@@ -47,7 +59,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-image-wrap hero-image-wrap--left">
@@ -189,10 +201,11 @@
             <a href="#appointments">Book a Consult →</a>
           </article>
           <article class="card retreat-card card--retreat">
+          <article class="card retreat-card card--retreat">
             <div class="card-icon">🌴</div>
-            <h3>Costa Rica Retreat</h3>
-            <p>5 days of ocean medicine, deep healing, and sisterhood at a luxury resort — December 17–21, 2026. Only 20 spots.</p>
-            <a href="#retreat">View Details →</a>
+            <h3>Wellness Retreats</h3>
+            <p>Explore the Costa Rica and Arizona editions with Dr. Alicia. Find your space for healing, connection, and renewal.</p>
+            <a href="#retreat">Explore Retreats →</a>
           </article>
         </div>
       </div>
@@ -200,7 +213,24 @@
 
     <section id="retreat" class="section retreat-section">
       <div class="container">
-        <div class="retreat-hero">
+        <h2>Wellness Retreats with Dr. Alicia</h2>
+        <nav class="retreat-editions" aria-label="Retreat editions">
+          <a class="btn btn-ghost" href="#costa-rica">Costa Rica Edition</a>
+          <a class="btn" href="/arizona-retreat.html">Arizona Edition</a>
+        </nav>
+        <article class="retreat-arizona-promo">
+          <div class="retreat-arizona-promo-copy">
+            <h3>Arizona Wellness Retreat</h3>
+            <p>Make space for yourself in Carefree, Arizona. This intimate retreat with Dr. Alicia is limited to 12 guests.</p>
+            <p><strong>$5,795 one-time purchase</strong> · Dates to be announced</p>
+            <p class="muted">Join the priority list for updates before registration opens.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn" href="/arizona-retreat.html#priority-list">Join the Priority List</a>
+            <a class="btn btn-ghost" href="/arizona-retreat.html">Explore Arizona →</a>
+          </div>
+        </article>
+        <div class="retreat-hero" id="costa-rica">
           <div class="retreat-text">
             <p class="eyebrow">Winter Solstice Wellness Retreat</p>
             <h2>Escape to Costa Rica with Dr. Alicia</h2>
@@ -212,8 +242,8 @@
               <span class="rbadge">💛 Early Bird Available</span>
             </div>
             <div class="hero-actions" style="margin-top:1.5rem">
-              <a class="btn" href="https://escapewithdralicia.lovable.app/" target="_blank">Reserve Your Spot</a>
-              <a class="btn btn-ghost" href="https://escapewithdralicia.lovable.app/" target="_blank">Full Details →</a>
+              <a class="btn" href="https://escapewithdralicia.lovable.app/" target="_blank" rel="noopener noreferrer">Reserve Your Spot</a>
+              <a class="btn btn-ghost" href="https://escapewithdralicia.lovable.app/" target="_blank" rel="noopener noreferrer">Full Details →</a>
             </div>
           </div>
           <div class="retreat-pricing">
@@ -239,7 +269,7 @@
               </div>
             </div>
             <p class="tier-note">$500 non-refundable retainer holds your spot · Flexible payment plans available</p>
-            <a class="btn" style="width:100%;text-align:center;margin-top:.8rem;display:block" href="https://escapewithdralicia.lovable.app/" target="_blank">Reserve Your Spot →</a>
+            <a class="btn" style="width:100%;text-align:center;margin-top:.8rem;display:block" href="https://escapewithdralicia.lovable.app/" target="_blank" rel="noopener noreferrer">Reserve Your Spot →</a>
           </div>
         </div>
         <div class="retreat-includes">
@@ -543,22 +573,6 @@
       </a>
     </div>
   </footer>
-
-  <!-- Retreat Popup -->
-  <div id="retreatPopup" class="popup-overlay" aria-hidden="true">
-    <div class="popup-card">
-      <button class="popup-close" id="popupClose" aria-label="Close">&#x2715;</button>
-      <div class="popup-badge">🌴 Limited Spots</div>
-      <h3>Costa Rica Retreat</h3>
-      <p class="popup-sub">Dec 17–21, 2026 · Los Sueños Marriott · Only 20 spots</p>
-      <p class="popup-body">Join Dr. Alicia for 5 days of deep healing, ocean medicine, and transformation. Early bird discount available now.</p>
-      <div class="popup-price">From <strong>$3,600</strong> · $500 holds your spot</div>
-      <div class="popup-actions">
-        <a class="btn" href="https://escapewithdralicia.lovable.app/" target="_blank">Reserve My Spot</a>
-        <button class="btn btn-ghost" id="popupDismiss">Maybe Later</button>
-      </div>
-    </div>
-  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>

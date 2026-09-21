@@ -1,0 +1,5 @@
+# Keep operational instructions and backend source out of the rendered website.
+exclude:
+  - README.md
+  - integrations
+  - docs
