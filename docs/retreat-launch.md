@@ -4,7 +4,9 @@
 
 - Permanent homepage Arizona banner; both retreat editions are accessible on mobile and desktop.
 - Arizona details and priority-list URL: https://draliciawatkins.com/arizona-retreat.html#priority-list
-- Arizona price: USD 5,795, one-time. Event capacity: 12 guests. Retreat dates remain unannounced.
+- Desert BLOOM Wellness Retreat, May 13–17, 2027 at CIVANA, Carefree, AZ. Event capacity: 12 guests.
+- Price: **not set.** All public pricing was removed on Oct 11, 2026 at the client’s request. Do not republish any price until Dr. Alicia confirms it.
+- Arizona contact: yaya@coachingwithdralicia.org, (503) 995-0491 (call). Yasmeen’s (832) 736-1443 stays in the site footer only.
 - Existing Costa Rica dates, pricing, reservation links, appointment embeds, and shopping integrations are preserved.
 - Both pages link to https://cozydigital.org.
 - CIVANA in Carefree is the likely intended venue described as “Savannah” in the supplied notes, because its official meeting-space list includes Black Mountain Casita. Confirm the spelling and booked venue with the client. No package inclusions or exact retreat dates were invented.
@@ -20,12 +22,12 @@ Automated saving and a real interest tally are **not activated**. See `integrati
 The connected browser's Teachable sign-in remained on Cloudflare security verification. No course, billing, enrollment, or payment settings were changed; no new checkout URL was obtained.
 
 1. Duplicate the existing Costa Rica course through Courses → product menu → Duplicate. Name it **Arizona Wellness Retreat**. Replace Costa Rica content and dates; review copied files, curriculum, and notifications before publishing.
-2. Create one USD **5,795 one-time purchase** pricing plan. Configure its enrollment cap to **12** and enable the remaining-enrollment display. If adding additional plans, coordinate their caps so combined sales cannot exceed 12. A plan cap is not a school-wide inventory cap.
+2. Create the pricing plan(s) at the price Dr. Alicia confirms. Configure its enrollment cap to **12** and enable the remaining-enrollment display. If adding additional plans, coordinate their caps so combined sales cannot exceed 12. A plan cap is not a school-wide inventory cap.
 3. Identify the school's payment gateway. Legacy Teachable Pay uses Settings → Payments and BackOffice for BNPL. New Teachable Payments uses Sales → Payment Settings → Payment Methods; expanded methods depend on the Global bundle. Do not activate a paid add-on without checking its cost with the owner.
-4. Check Klarna eligibility. Do not promise Afterpay on this $5,795 purchase: the documented limits are below this price. Available financing is customer- and gateway-dependent.
+4. Check Klarna eligibility. Do not promise Afterpay on a purchase of this size: the documented limits are below the expected price range. Available financing is customer- and gateway-dependent.
 5. Inspect actual checkout capabilities. Current official documentation marks custom checkout fields as **coming soon**, rather than generally available. Do not claim custom room/package intake has been added directly to billing. If unavailable, agree a supported pre-checkout intake flow and link records with the same purchase email.
 6. Proposed intake fields, to confirm against actual packages: attendee full name; purchase email; package preference; room preference; roommate name if applicable; additional attendee name(s) if multiple attendees are permitted. Do not invent room categories or sell additional attendees without capacity handling.
-7. Copy the new pricing-plan checkout URL. Verify product name, USD 5,795 total before any disclosed taxes, cap, intake, and payment methods. Do not make a real purchase as a test without authorization.
+7. Copy the new pricing-plan checkout URL. Verify product name, the confirmed total before any disclosed taxes, cap, intake, and payment methods. Do not make a real purchase as a test without authorization.
 8. Add the verified school checkout URL to `checkoutUrl` in `src/retreat-config.js`. It enables the Arizona booking button; it never alters Costa Rica links.
 
 ## Official references checked September 21, 2026
