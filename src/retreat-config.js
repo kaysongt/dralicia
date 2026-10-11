@@ -6,6 +6,6 @@ export const retreatConfig = Object.freeze({
   // Paste the verified $5,795 Arizona pricing-plan URL only after checkout,
   // intake, and the total 12-person enrollment cap have been tested.
   checkoutUrl: '',
-  contactEmail: 'yasmeen@coachingwithdralicia.com',
+  contactEmail: 'yaya@coachingwithdralicia.org',
   capacity: 12,
 });
