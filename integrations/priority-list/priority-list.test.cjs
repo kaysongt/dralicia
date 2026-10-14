@@ -16,20 +16,51 @@ function createHarness() {
   const clone = (value) => JSON.parse(JSON.stringify(value));
   const sheet = {
     getLastRow: () => state.rows.length,
+    getLastColumn: () => (state.rows[0] || []).length,
+    getSheetId: () => 1,
+    hideSheet: () => { state.rawHidden = true; },
     setFrozenRows: () => {},
     getRange(row, column, height, width) {
       const range = {
         setNumberFormat: () => range,
+        setNumberFormats: (formats) => { state.formats = formats; return range; },
         getValues: () => Array.from({ length: height }, (_, i) =>
           Array.from({ length: width }, (_, j) => state.rows[row - 1 + i]?.[column - 1 + j] ?? '')),
         setValues(values) {
           if (state.failWrite) throw new Error('Simulated write failure');
-          values.forEach((valuesRow, i) => { state.rows[row - 1 + i] = clone(valuesRow); });
+          values.forEach((valuesRow, i) => { state.rows[row - 1 + i] = valuesRow.slice(); });
           return range;
         },
       };
       return range;
     },
+  };
+  // Any tab other than the raw list records what setup wrote to it.
+  const viewSheet = (name) => {
+    const view = { name, values: {}, formulas: {}, cleared: 0, protections: [], id: 100 + Object.keys(state.tabs).length };
+    const cell = (r, c) => {
+      const range = new Proxy({}, { get: (_, key) => {
+        if (key === 'setValues') return (v) => { v.forEach((row, i) => row.forEach((x, j) => { view.values[`${r + i},${c + j}`] = x; })); return range; };
+        if (key === 'setFormula') return (f) => { view.formulas[`${r},${c}`] = f; return range; };
+        return () => range;
+      } });
+      return range;
+    };
+    Object.assign(view, {
+      getRange: cell, clear: () => { view.cleared++; view.values = {}; view.formulas = {}; },
+      setFrozenRows: () => {}, setColumnWidth: () => {}, getSheetId: () => view.id,
+      getLastRow: () => 0, getLastColumn: () => 0,
+      getProtections: () => view.protections.slice(),
+      protect: () => { const p = { remove: () => { view.protections.splice(view.protections.indexOf(p), 1); }, setDescription: () => p, setWarningOnly: () => p }; view.protections.push(p); return p; },
+    });
+    return view;
+  };
+  state.tabs = {};
+  const workbook = {
+    getSheetByName: (name) => (name === 'Arizona Priority List' ? sheet : state.tabs[name] || null),
+    insertSheet: (name) => (name === 'Arizona Priority List' ? sheet : (state.tabs[name] = viewSheet(name))),
+    setActiveSheet: (tab) => { state.active = tab; }, moveActiveSheet: () => {},
+    deleteSheet: (tab) => { delete state.tabs[tab.name]; state.deleted = (state.deleted || []).concat(tab.name); },
   };
   const context = vm.createContext({
     Date, JSON, Object, String, Number, Math,
@@ -39,8 +70,9 @@ function createHarness() {
       releaseLock: () => { assert.ok(state.acquired); state.acquired = false; state.releases++; },
     }) },
     SpreadsheetApp: {
-      openById: () => ({ getSheetByName: () => sheet, insertSheet: () => sheet }),
-      getActiveSpreadsheet: () => (state.unbound ? null : { getSheetByName: () => sheet, insertSheet: () => sheet }),
+      ProtectionType: { SHEET: 'SHEET' },
+      openById: () => workbook,
+      getActiveSpreadsheet: () => (state.unbound ? null : workbook),
       flush: () => { if (state.failFlush) throw new Error('Simulated flush failure'); },
     },
     PropertiesService: { getScriptProperties: () => ({
@@ -238,4 +270,42 @@ test('without SPREADSHEET_ID the script uses the Sheet it is attached to', () =>
   delete h.state.properties.SPREADSHEET_ID;
   assert.deepEqual(h.submit({ email: 'bound@example.com' }), { ok: true, capacity: 12 });
   assert.equal(h.state.rows[1][3], 'bound@example.com');
+});
+
+test('setup builds a readable Signups tab and hides the technical tab', () => {
+  const h = createHarness();
+  const view = h.state.tabs.Signups;
+  assert.ok(view, 'Signups tab created');
+  assert.deepEqual([1, 2, 3, 4, 5, 6].map((c) => view.values[`1,${c}`]),
+    ['#', 'First name', 'Last name', 'Email', 'Signed up', 'Total signups']);
+  const formula = view.formulas['2,1'];
+  for (const column of ['G2:G*1', 'B2:B', 'C2:C', 'D2:D', 'A2:A']) assert.ok(formula.includes(`'Arizona Priority List'!${column}`), column);
+  assert.equal(view.formulas['2,6'], '=COUNTA(D2:D)');
+  assert.equal(h.state.rawHidden, true);
+  assert.equal(h.state.active, view);
+  assert.equal(view.protections.length, 1);
+  // Re-running setup rebuilds the tab instead of stacking duplicate protections.
+  h.context.setupPriorityList();
+  assert.equal(view.protections.length, 1);
+  assert.equal(view.cleared, 2);
+});
+
+test('setup removes only an empty default Sheet1', () => {
+  const h = createHarness();
+  h.state.tabs.Sheet1 = { name: 'Sheet1', getSheetId: () => 7, getLastRow: () => 0, getLastColumn: () => 0 };
+  h.context.setupPriorityList();
+  assert.deepEqual(h.state.deleted, ['Sheet1']);
+  const h2 = createHarness();
+  h2.state.tabs.Sheet1 = { name: 'Sheet1', getSheetId: () => 7, getLastRow: () => 3, getLastColumn: () => 2 };
+  h2.context.setupPriorityList();
+  assert.equal(h2.state.deleted, undefined);
+});
+
+test('new rows store a real date and a numeric position', () => {
+  const h = createHarness();
+  h.submit({ email: 'dated@example.com' });
+  assert.ok(h.state.rows[1][0] instanceof Date);
+  assert.equal(h.state.rows[1][6], 1);
+  assert.equal(h.state.formats[0][0], 'mmm d, yyyy h:mm am/pm');
+  assert.equal(h.state.formats[0][6], '0');
 });

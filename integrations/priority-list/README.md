@@ -4,7 +4,7 @@
 
 Once deployed, every signup:
 
-1. is saved as a row in a private Google Sheet (tab **Arizona Priority List**), and
+1. is saved to a private Google Sheet and shows up on its **Signups** tab (#, first name, last name, email, signup date and time, plus a running total), and
 2. triggers an email to **yaya@coachingwithdralicia.org** and **yasmeen@coachingwithdralicia.com** with the person's name, email, and list position.
 
 ## Set up (about 10 minutes, in the Google account that should own the list)
@@ -12,12 +12,17 @@ Once deployed, every signup:
 1. **Create the Sheet.** In Google Drive, create a new Google Sheet named, for example, *Desert BLOOM Priority List*. Keep sharing **Restricted** and share it only with staff who need it (for example Yaya). Never make it public.
 2. **Open Apps Script from the Sheet.** In the Sheet choose **Extensions → Apps Script**. Delete the starter code and paste in all of `Code.gs`.
 3. **Add the manifest.** Click the gear (**Project Settings**), tick **Show "appsscript.json" manifest file in editor**, go back to the editor, open `appsscript.json`, and replace its contents with this repo's `appsscript.json`.
-4. **Run setup once.** In the editor's function dropdown pick `setupPriorityList` and click **Run**. Approve the permission prompt (Google will show "unverified app" for your own script: choose *Advanced → Go to project*). It creates the **Arizona Priority List** tab with its headers. The permissions are: edit spreadsheets, and send email as you.
+4. **Run setup once.** In the editor's function dropdown pick `setupPriorityList` and click **Run**. Approve the permission prompt (Google will show "unverified app" for your own script: choose *Advanced → Go to project*). It creates two tabs: **Signups**, the easy-to-read list for the team, and **Arizona Priority List**, the technical record the script uses for duplicate checks, which it hides. It also removes the empty default "Sheet1". The permissions are: edit spreadsheets, and send email as you.
 5. **Deploy.** Click **Deploy → New deployment**, choose type **Web app**, set *Execute as* **Me** and *Who has access* **Anyone**, then **Deploy**. Copy the **Web app URL** that ends in `/exec` (not a `/dev` URL).
 6. **Connect the website.** *(Done: the live deployment URL is set in `arizona-retreat.html`.)* Paste that URL into `priorityListEndpoint` in the inline `config` near the bottom of `arizona-retreat.html` (that is the copy the live page uses; mirror it in `src/retreat-config.js`). Commit and publish. The form then says **Join the Priority List** instead of offering an email draft.
 7. **Test once.** On the live page, sign up with a test name and your own email. Check that a row appears in the Sheet and that Yaya receives the email. Then delete the test row.
 
-If Code.gs changes later, use **Deploy → Manage deployments → Edit → Version: New version** so the same `/exec` URL keeps working.
+If Code.gs changes later: paste the new code, save, run `setupPriorityList` again (safe to repeat; it rebuilds the **Signups** tab and never touches saved signups), then use **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy** so the same `/exec` URL keeps working.
+
+### Reading and editing the list
+
+- Read signups on the **Signups** tab. It updates by itself and is sorted by list position; times are shown in the Sheet's time zone (**File → Settings**). It is protected with a warning so nobody overwrites its formula by accident.
+- To remove someone, unhide the technical tab (**View → Hidden sheets → Arizona Priority List**), delete their row there, and hide it again. Don't edit its headers or the `email_sha256`, `request_id` or `list_position` columns.
 
 ### Optional script properties
 
