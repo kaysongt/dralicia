@@ -1,24 +1,25 @@
 /**
- * Arizona retreat interest list. Deploy separately as a Google Apps Script web app.
+ * Arizona retreat interest list. Deploy as a Google Apps Script web app, ideally
+ * from Extensions → Apps Script inside the private Sheet it should write to.
  * This file contains no deployment, spreadsheet identifier, or credentials.
  * Read README.md before deploying. All attendee data remains in a private Sheet.
  */
 var CAPACITY = 12;
 var SHEET_NAME = 'Arizona Priority List';
+// Who is emailed about each new signup. Override with the NOTIFY_EMAIL script
+// property (comma-separate several addresses); set it to "off" to disable.
+var DEFAULT_NOTIFY_EMAIL = 'yaya@coachingwithdralicia.org';
 var HEADERS = [
   'joined_at_utc', 'first_name', 'last_name', 'email', 'email_sha256',
   'request_id', 'list_position', 'consent', 'consent_version'
 ];
 
-/** Run once in the Apps Script editor after setting SPREADSHEET_ID. */
+/** Run once in the Apps Script editor to create the tab and authorize access. */
 function setupPriorityList() {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    var properties = PropertiesService.getScriptProperties();
-    var id = properties.getProperty('SPREADSHEET_ID');
-    if (!id) throw new Error('Set SPREADSHEET_ID in Script Properties first.');
-    var workbook = SpreadsheetApp.openById(id);
+    var workbook = workbook_(PropertiesService.getScriptProperties());
     var sheet = workbook.getSheetByName(SHEET_NAME) || workbook.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) {
       sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
@@ -103,6 +104,7 @@ function doPost(event) {
     // Stored after the write: a lost response can safely be retried without another row.
     // The persisted high-water mark also prevents position reuse after an admin removes a row.
     properties.setProperty('LAST_POSITION', String(position));
+    notifyNewSignup_(properties, attendee, position);
     return success_();
   } catch (error) {
     // Do not return exception details, log form data, or disclose spreadsheet identifiers.
@@ -126,10 +128,16 @@ function validateAttendee_(fields) {
   return { firstName: firstName, lastName: lastName, email: email, requestId: requestId };
 }
 
-function configuredSheet_(properties) {
+/** SPREADSHEET_ID wins; otherwise use the Sheet this script is attached to. */
+function workbook_(properties) {
   var id = properties.getProperty('SPREADSHEET_ID');
-  if (!id) throw new Error('Not configured');
-  var sheet = SpreadsheetApp.openById(id).getSheetByName(SHEET_NAME);
+  var workbook = id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!workbook) throw new Error('Not configured');
+  return workbook;
+}
+
+function configuredSheet_(properties) {
+  var sheet = workbook_(properties).getSheetByName(SHEET_NAME);
   if (!sheet) throw new Error('Not initialized');
   validateHeaders_(sheet);
   return sheet;
@@ -143,6 +151,36 @@ function validateHeaders_(sheet) {
 function readRows_(sheet) {
   return sheet.getLastRow() < 2 ? [] :
     sheet.getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length).getValues();
+}
+
+/**
+ * Email the retreat team about a new signup. Runs only after the row is saved,
+ * and a mail failure (quota, bad address) never turns a saved signup into an error.
+ */
+function notifyNewSignup_(properties, attendee, position) {
+  try {
+    var to = String(properties.getProperty('NOTIFY_EMAIL') || DEFAULT_NOTIFY_EMAIL).trim();
+    if (!to || to.toLowerCase() === 'off') return;
+    var name = attendee.firstName + ' ' + attendee.lastName;
+    MailApp.sendEmail({
+      to: to,
+      subject: 'New Desert BLOOM signup: ' + name.replace(/[\r\n]+/g, ' '),
+      name: 'Desert BLOOM Priority List',
+      body: [
+        'Someone just joined the Desert BLOOM Wellness Retreat priority list.',
+        '',
+        'Name: ' + name,
+        'Email: ' + attendee.email,
+        'List position: ' + position,
+        'Signed up: ' + new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC',
+        '',
+        'All signups are in the private Google Sheet, tab "' + SHEET_NAME + '".',
+        'This is an interest-list signup, not a payment or reservation.'
+      ].join('\n')
+    });
+  } catch (error) {
+    // Never log or return attendee details; the row in the Sheet is the record.
+  }
 }
 
 function withinRateLimit_(properties) {

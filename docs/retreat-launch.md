@@ -15,7 +15,7 @@
 
 The first/last-name/email form prepares an email addressed to the retreat contact already published on the site. The visitor must open and send the draft; no email is sent automatically, and no successful signup or saved position is claimed. The website does not collect contact data in analytics, query strings, browser storage, or GitHub.
 
-Automated saving and a real interest tally are **not activated**. See `integrations/priority-list/README.md` for the prepared private Google Sheets/Apps Script backend. Before promoting automated signup, deploy it, reconcile prior email requests, configure `priorityListEndpoint` in `src/retreat-config.js`, and verify a submission end to end. Never subtract interest-list entries from the 12 paid spaces.
+Automated saving (Google Sheet + email to Yaya on every signup) is **ready but not deployed**. See `integrations/priority-list/README.md` for the prepared private Google Sheets/Apps Script backend. Before promoting automated signup, deploy it, reconcile prior email requests, configure `priorityListEndpoint` in the inline config of `arizona-retreat.html`, and verify a submission end to end. Never subtract interest-list entries from the 12 paid spaces.
 
 ## Teachable — not configured in this update
 

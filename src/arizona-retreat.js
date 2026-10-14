@@ -37,8 +37,7 @@ async function refreshCount() {
       return;
     }
     const noun = data.interestCount === 1 ? 'person has' : 'people have';
-    count.textContent = `${data.interestCount} ${noun} joined the interest list. Retreat capacity: ${config.capacity} guests.`;
-    if (data.interestCount > config.capacity) count.textContent += ' Interest exceeds retreat capacity; the team will confirm availability when booking opens.';
+    count.textContent = `${data.interestCount} ${noun} joined the interest list.`;
     count.hidden = false;
   } catch { count.hidden = true; }
 }
@@ -78,8 +77,8 @@ form.addEventListener('submit', async event => {
   }
   if (values.get('website')) return;
   if (!endpoint) {
-    const body = `Please add me to the Arizona Wellness Retreat priority list.\n\nFirst Name: ${firstName}\nLast Name: ${lastName}\nEmail Address: ${email}\n\nI agree to receive Arizona retreat updates. I understand this request does not reserve a retreat spot.`;
-    document.getElementById('email-draft').href = `mailto:${config.contactEmail}?subject=${encodeURIComponent('Arizona Retreat Priority List')}&body=${encodeURIComponent(body)}`;
+    const body = `Please add me to the Desert BLOOM Wellness Retreat priority list.\n\nFirst Name: ${firstName}\nLast Name: ${lastName}\nEmail Address: ${email}\n\nI agree to receive Arizona retreat updates. I understand this request does not reserve a retreat spot.`;
+    document.getElementById('email-draft').href = `mailto:${config.contactEmail}?subject=${encodeURIComponent('Desert BLOOM Retreat Priority List')}&body=${encodeURIComponent(body)}`;
     draftWrap.hidden = false;
     setStatus('Your email draft is ready. Open it and send it to the retreat team to request signup. Your details have not been submitted yet.');
     return;

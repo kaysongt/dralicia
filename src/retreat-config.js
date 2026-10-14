@@ -7,5 +7,4 @@ export const retreatConfig = Object.freeze({
   // intake, and the total 12-person enrollment cap have been tested.
   checkoutUrl: '',
   contactEmail: 'yaya@coachingwithdralicia.org',
-  capacity: 12,
 });

@@ -12,10 +12,10 @@
     gtag('config', 'G-WZTZ4BL9YV');
   </script>
   <title>Desert BLOOM Wellness Retreat | Dr. Alicia</title>
-  <meta name="description" content="The Desert BLOOM Wellness Retreat with Dr. Alicia: May 13–17, 2027 at CIVANA Wellness Resort &amp; Spa in Carefree, Arizona. A maximum of 12 guests. Join the priority list.">
+  <meta name="description" content="The Desert BLOOM Wellness Retreat with Dr. Alicia: May 13–17, 2027 at CIVANA Wellness Resort &amp; Spa in Carefree, Arizona. Join the priority list.">
   <link rel="canonical" href="https://draliciawatkins.com/arizona-retreat.html">
   <meta property="og:title" content="Desert BLOOM Wellness Retreat | Dr. Alicia">
-  <meta property="og:description" content="May 13–17, 2027 · Carefree, Arizona. Maximum 12 guests. Join the priority list for Dr. Alicia’s Desert BLOOM Wellness Retreat.">
+  <meta property="og:description" content="May 13–17, 2027 · Carefree, Arizona. Join the priority list for Dr. Alicia’s Desert BLOOM Wellness Retreat.">
   <meta property="og:url" content="https://draliciawatkins.com/arizona-retreat.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://draliciawatkins.com/src/dralicia-about.jpg">
@@ -537,7 +537,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="announcement-bar">
     <div class="container announcement-inner">
-      <a class="announcement-link" href="#priority-list"><strong>Desert BLOOM Wellness Retreat</strong><span>May 13–17, 2027 · 12 guests maximum · Join the priority list →</span></a>
+      <a class="announcement-link" href="#priority-list"><strong>Desert BLOOM Wellness Retreat</strong><span>May 13–17, 2027 · Join the priority list →</span></a>
     </div>
   </div>
   <header class="topbar"><div class="container nav">
@@ -552,7 +552,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
           <p class="arizona-eyebrow">Dr. Alicia’s Arizona Wellness Retreat</p>
           <h1>Desert BLOOM Wellness Retreat</h1>
           <p class="arizona-intro">The BLOOM Experience<br><span class="bloom-line">Breathe · Love · Observe · Own · Manifest</span></p>
-          <p class="arizona-hero-description">Join Dr. Alicia at CIVANA Wellness Resort &amp; Spa in Carefree, Arizona, May 13–17, 2027, for an intimate wellness retreat with a maximum of 12 guests.</p>
+          <p class="arizona-hero-description">Join Dr. Alicia at CIVANA Wellness Resort &amp; Spa in Carefree, Arizona, May 13–17, 2027, for an intimate wellness retreat.</p>
           <div class="hero-actions">
             <a class="btn" href="#priority-list">Join the Priority List</a>
             <a class="btn btn-ghost btn-ghost-light" href="#venue">Explore the Setting</a>
@@ -571,7 +571,6 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
           <h2 id="priority-heading">Be ready when registration opens.</h2>
           <p class="lead">Join the Arizona priority list for retreat details and booking updates.</p>
           <dl class="arizona-facts">
-            <div><dt>Retreat capacity</dt><dd>12 guests maximum</dd></div>
             <div><dt>Dates</dt><dd>May 13–17, 2027</dd></div>
             <div><dt>Registration</dt><dd>Opening soon</dd></div>
           </dl>
@@ -613,7 +612,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
         </div>
         <div class="arizona-venue-details">
           <h3>Black Mountain Casita</h3>
-          <p>CIVANA lists this 1,600-square-foot space among its meeting venues. Dr. Alicia’s retreat group will be limited to 12 guests.</p>
+          <p>CIVANA lists this 1,600-square-foot space among its meeting venues.</p>
           <h3>The resort experience</h3>
           <p>Explore a wellness setting with movement and enrichment classes, yoga studios, a spa, pools, and dining, surrounded by the Sonoran Desert.</p>
           <p class="muted">See <a class="text-link" href="#included">what every guest receives</a> for the services included in your retreat.</p>
@@ -702,7 +701,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
     <section class="section" id="questions" aria-labelledby="questions-heading">
       <div class="container arizona-questions">
         <h2 id="questions-heading">Before you join</h2>
-        <details><summary>Does joining the list guarantee a spot?</summary><p>No. The retreat has a maximum of 12 guests, and the interest list may be larger. The team will share availability when registration opens. A list request is not a booking or payment.</p></details>
+        <details><summary>Does joining the list guarantee a spot?</summary><p>No. Space is limited, and the interest list may be larger. The team will share availability when registration opens. A list request is not a booking or payment.</p></details>
         <details><summary>When is the retreat?</summary><p>May 13–17, 2027 (5 days / 4 nights) at CIVANA Wellness Resort &amp; Spa in Carefree, Arizona. Fly into Phoenix Sky Harbor (PHX) or Scottsdale Airport (SCF). Join the priority list for updates ahead of the January launch.</p></details>
       </div>
     </section>
@@ -721,7 +720,6 @@ const config = Object.freeze({
   // intake, and the total 12-person enrollment cap have been tested.
   checkoutUrl: '',
   contactEmail: 'yaya@coachingwithdralicia.org',
-  capacity: 12,
 });
 
 const form = document.getElementById('priority-form');
@@ -761,8 +759,7 @@ async function refreshCount() {
       return;
     }
     const noun = data.interestCount === 1 ? 'person has' : 'people have';
-    count.textContent = `${data.interestCount} ${noun} joined the interest list. Retreat capacity: ${config.capacity} guests.`;
-    if (data.interestCount > config.capacity) count.textContent += ' Interest exceeds retreat capacity; the team will confirm availability when booking opens.';
+    count.textContent = `${data.interestCount} ${noun} joined the interest list.`;
     count.hidden = false;
   } catch { count.hidden = true; }
 }
@@ -802,8 +799,8 @@ form.addEventListener('submit', async event => {
   }
   if (values.get('website')) return;
   if (!endpoint) {
-    const body = `Please add me to the Arizona Wellness Retreat priority list.\n\nFirst Name: ${firstName}\nLast Name: ${lastName}\nEmail Address: ${email}\n\nI agree to receive Arizona retreat updates. I understand this request does not reserve a retreat spot.`;
-    document.getElementById('email-draft').href = `mailto:${config.contactEmail}?subject=${encodeURIComponent('Arizona Retreat Priority List')}&body=${encodeURIComponent(body)}`;
+    const body = `Please add me to the Desert BLOOM Wellness Retreat priority list.\n\nFirst Name: ${firstName}\nLast Name: ${lastName}\nEmail Address: ${email}\n\nI agree to receive Arizona retreat updates. I understand this request does not reserve a retreat spot.`;
+    document.getElementById('email-draft').href = `mailto:${config.contactEmail}?subject=${encodeURIComponent('Desert BLOOM Retreat Priority List')}&body=${encodeURIComponent(body)}`;
     draftWrap.hidden = false;
     setStatus('Your email draft is ready. Open it and send it to the retreat team to request signup. Your details have not been submitted yet.');
     return;
