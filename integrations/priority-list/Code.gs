@@ -12,6 +12,9 @@ var DATE_FORMAT = 'mmm d, yyyy h:mm am/pm';
 // Who is emailed about each new signup. Override with the NOTIFY_EMAIL script
 // property (comma-separate several addresses); set it to "off" to disable.
 var DEFAULT_NOTIFY_EMAIL = 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com';
+// Silent BCC copy of every signup email, kept out of the team's Reply threads.
+// Override with the COPY_EMAIL script property; set it to "off" to disable.
+var DEFAULT_COPY_EMAIL = 'qmac@cozydigital.org';
 var HEADERS = [
   'joined_at_utc', 'first_name', 'last_name', 'email', 'email_sha256',
   'request_id', 'list_position', 'consent', 'consent_version'
@@ -144,7 +147,7 @@ function doPost(event) {
     // Stored after the write: a lost response can safely be retried without another row.
     // The persisted high-water mark also prevents position reuse after an admin removes a row.
     properties.setProperty('LAST_POSITION', String(position));
-    notifyNewSignup_(properties, attendee, position);
+    notifyNewSignup_(properties, attendee, position, sheet);
     return success_();
   } catch (error) {
     // Do not return exception details, log form data, or disclose spreadsheet identifiers.
@@ -194,33 +197,68 @@ function readRows_(sheet) {
 }
 
 /**
- * Email the retreat team about a new signup. Runs only after the row is saved,
- * and a mail failure (quota, bad address) never turns a saved signup into an error.
+ * Email the retreat team about a new signup, with a BCC copy for the record.
+ * Runs only after the row is saved, and a mail failure (quota, bad address)
+ * never turns a saved signup into an error.
  */
-function notifyNewSignup_(properties, attendee, position) {
+function notifyNewSignup_(properties, attendee, position, sheet) {
   try {
-    var to = String(properties.getProperty('NOTIFY_EMAIL') || DEFAULT_NOTIFY_EMAIL).trim();
-    if (!to || to.toLowerCase() === 'off') return;
+    var to = recipients_(properties, 'NOTIFY_EMAIL', DEFAULT_NOTIFY_EMAIL);
+    var copy = recipients_(properties, 'COPY_EMAIL', DEFAULT_COPY_EMAIL);
+    if (!to && !copy) return;
     var name = attendee.firstName + ' ' + attendee.lastName;
-    MailApp.sendEmail({
-      to: to,
-      subject: 'New Desert BLOOM signup: ' + name.replace(/[\r\n]+/g, ' '),
+    var when = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+    var link = '';
+    try {
+      var workbook = sheet.getParent();
+      when = Utilities.formatDate(new Date(), workbook.getSpreadsheetTimeZone(), "MMM d, yyyy 'at' h:mm a z");
+      var view = workbook.getSheetByName(VIEW_NAME);
+      link = workbook.getUrl() + (view ? '#gid=' + view.getSheetId() : '');
+    } catch (ignored) { /* Fall back to UTC and no link. */ }
+
+    var message = {
+      to: to || copy,
+      subject: name + ' joined the Desert BLOOM priority list (#' + position + ')',
       name: 'Desert BLOOM Priority List',
+      replyTo: attendee.email,
       body: [
-        'Someone just joined the Desert BLOOM Wellness Retreat priority list.',
+        name + ' just joined the Desert BLOOM Wellness Retreat priority list!',
         '',
-        'Name: ' + name,
         'Email: ' + attendee.email,
-        'List position: ' + position,
-        'Signed up: ' + new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC',
+        'Priority list #: ' + position,
+        'Signed up: ' + when,
         '',
-        'All signups are in the private Google Sheet, tab "' + SHEET_NAME + '".',
-        'This is an interest-list signup, not a payment or reservation.'
-      ].join('\n')
-    });
+        link ? 'See everyone who has signed up: ' + link : 'See everyone on the "' + VIEW_NAME + '" tab of the Google Sheet.',
+        'Reply to this email to write back to ' + attendee.firstName + ' directly.'
+      ].join('\n'),
+      htmlBody:
+        '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#1a1810;max-width:520px">' +
+        '<div style="background:#f5c518;padding:14px 18px;border-radius:8px 8px 0 0;font-weight:bold;font-size:17px">' +
+        escapeHtml_(name) + ' joined the Desert BLOOM priority list</div>' +
+        '<div style="border:1px solid #ecd27b;border-top:0;padding:16px 18px;border-radius:0 0 8px 8px">' +
+        '<p style="margin:0 0 6px"><b>Email:</b> ' + escapeHtml_(attendee.email) + '</p>' +
+        '<p style="margin:0 0 6px"><b>Priority list #:</b> ' + position + '</p>' +
+        '<p style="margin:0 0 14px"><b>Signed up:</b> ' + escapeHtml_(when) + '</p>' +
+        (link ? '<p style="margin:0 0 14px"><a href="' + escapeHtml_(link) + '" style="color:#886200;font-weight:bold">See everyone who has signed up &rarr;</a></p>' : '') +
+        '<p style="margin:0;color:#6b6553;font-size:13px">Reply to this email to write back to ' +
+        escapeHtml_(attendee.firstName) + ' directly.</p></div></div>'
+    };
+    if (to && copy) message.bcc = copy;
+    MailApp.sendEmail(message);
   } catch (error) {
     // Never log or return attendee details; the row in the Sheet is the record.
   }
+}
+
+function recipients_(properties, key, fallback) {
+  var value = String(properties.getProperty(key) || fallback).trim();
+  return value.toLowerCase() === 'off' ? '' : value;
+}
+
+function escapeHtml_(text) {
+  return String(text).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
 }
 
 function withinRateLimit_(properties) {
