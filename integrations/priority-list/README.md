@@ -5,7 +5,7 @@
 Once deployed, every signup:
 
 1. is saved to a private Google Sheet and shows up on its **Signups** tab (#, first name, last name, email, signup date and time, plus a running total), and
-2. triggers an email to **yaya@coachingwithdralicia.org** and **yasmeen@coachingwithdralicia.com** with the person's name, email, and list position.
+2. emails **yaya@coachingwithdralicia.org** and **yasmeen@coachingwithdralicia.com** (subject: *"Maya Rivers joined the Desert BLOOM priority list (#1)"*) with the person's email, list number, signup time in the Sheet's time zone, and a link to the **Signups** tab. Hitting Reply writes straight back to the person who signed up. A silent BCC copy goes to **qmac@cozydigital.org** for the record. Each email is about 1 KB.
 
 ## Set up (about 10 minutes, in the Google account that should own the list)
 
@@ -31,13 +31,16 @@ Set these under **Project Settings → Script properties**. None are required wh
 | Property | Value |
 | --- | --- |
 | `NOTIFY_EMAIL` | Who gets the signup emails. Defaults to `yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com`. Comma-separate several addresses, or set `off` to stop emails. |
+| `COPY_EMAIL` | Silent BCC copy of every signup email. Defaults to `qmac@cozydigital.org`; set `off` to stop it. |
 | `SPREADSHEET_ID` | Only for a standalone script that is *not* opened from the Sheet: the ID of the private Sheet. Never put it in the website repository. |
 | `EXPOSE_AGGREGATE_COUNT` | `true` shows "N people have joined the interest list" on the page. Off by default. |
 | `MAX_REQUESTS_PER_HOUR` | Global hourly request limit; default `120`, allowed `1`–`1000`. |
 
 `LAST_POSITION` is managed by the script after successful new entries. Do not reset it on an active list.
 
-Email uses the owning account's Apps Script quota (about 100 recipients a day on a free Gmail account, 1,500 on Google Workspace). If the quota runs out the signup is still saved; only the email is skipped.
+Email uses the owning account's Apps Script quota, counted per recipient (about 100 a day on a free Gmail account, 1,500 on Google Workspace). With three recipients per signup that is roughly 33 signups a day on free Gmail. If the quota runs out the signup is still saved; only the email is skipped.
+
+To keep the copies out of an inbox, create a Gmail filter: search `subject:("joined the Desert BLOOM priority list")`, choose **Create filter**, tick **Skip the Inbox** and **Apply the label** (for example *Desert BLOOM signups*).
 
 ## API contract
 

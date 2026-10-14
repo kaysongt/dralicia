@@ -19,6 +19,7 @@ function createHarness() {
     getLastColumn: () => (state.rows[0] || []).length,
     getSheetId: () => 1,
     hideSheet: () => { state.rawHidden = true; },
+    getParent: () => workbook,
     setFrozenRows: () => {},
     getRange(row, column, height, width) {
       const range = {
@@ -60,6 +61,8 @@ function createHarness() {
     getSheetByName: (name) => (name === 'Arizona Priority List' ? sheet : state.tabs[name] || null),
     insertSheet: (name) => (name === 'Arizona Priority List' ? sheet : (state.tabs[name] = viewSheet(name))),
     setActiveSheet: (tab) => { state.active = tab; }, moveActiveSheet: () => {},
+    getSpreadsheetTimeZone: () => 'America/Chicago',
+    getUrl: () => 'https://docs.google.com/spreadsheets/d/TEST/edit',
     deleteSheet: (tab) => { delete state.tabs[tab.name]; state.deleted = (state.deleted || []).concat(tab.name); },
   };
   const context = vm.createContext({
@@ -85,6 +88,7 @@ function createHarness() {
     Utilities: {
       DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' },
       computeDigest: (algorithm, text, encoding) => [...createHash(algorithm).update(text, encoding).digest()],
+      formatDate: (date, timeZone, format) => `${timeZone} ${format}`,
     },
     MailApp: { sendEmail: (message) => {
       if (state.failMail) throw new Error('Simulated mail quota');
@@ -231,29 +235,48 @@ test('missing configuration fails closed without disclosing private data', () =>
   assert.equal(h.state.releases, 1);
 });
 
-test('each new signup emails the retreat team once; duplicates and bots do not', () => {
+test('each new signup emails the team once with a BCC copy; duplicates and bots do not', () => {
   const h = createHarness();
   h.submit({ firstName: 'Maya', lastName: 'Rivers', email: 'Maya@Example.com' });
   assert.equal(h.state.mail.length, 1);
   const message = h.state.mail[0];
   assert.equal(message.to, 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com');
-  assert.equal(message.subject, 'New Desert BLOOM signup: Maya Rivers');
-  assert.match(message.body, /Name: Maya Rivers/);
+  assert.equal(message.bcc, 'qmac@cozydigital.org');
+  assert.equal(message.replyTo, 'maya@example.com');
+  assert.equal(message.subject, 'Maya Rivers joined the Desert BLOOM priority list (#1)');
   assert.match(message.body, /Email: maya@example\.com/);
-  assert.match(message.body, /List position: 1/);
+  assert.match(message.body, /Priority list #: 1/);
+  // Time uses the Sheet's own time zone, and the link opens the Signups tab.
+  assert.match(message.body, /Signed up: America\/Chicago MMM d, yyyy 'at' h:mm a z/);
+  assert.match(message.body, /https:\/\/docs\.google\.com\/spreadsheets\/d\/TEST\/edit#gid=\d+/);
+  assert.match(message.htmlBody, /See everyone who has signed up/);
   h.submit({ email: 'maya@example.com' });
   h.submit({ email: 'bot@example.com', website: 'spam' });
   assert.equal(h.state.mail.length, 1);
 });
 
-test('NOTIFY_EMAIL overrides the recipient and "off" disables notifications', () => {
+test('names are HTML-escaped in the email', () => {
+  const h = createHarness();
+  h.submit({ firstName: '<b>Eve</b>', lastName: 'O\'Neil & Co', email: 'eve@example.com' });
+  const html = h.state.mail[0].htmlBody;
+  assert.ok(!html.includes('<b>Eve</b>'));
+  assert.match(html, /&lt;b&gt;Eve&lt;\/b&gt; O&#39;Neil &amp; Co joined/);
+});
+
+test('NOTIFY_EMAIL and COPY_EMAIL override recipients and "off" disables each', () => {
   const h = createHarness();
   h.state.properties.NOTIFY_EMAIL = 'team@example.com, yaya@example.com';
+  h.state.properties.COPY_EMAIL = 'me@example.com';
   h.submit({ email: 'one@example.com' });
   assert.equal(h.state.mail[0].to, 'team@example.com, yaya@example.com');
+  assert.equal(h.state.mail[0].bcc, 'me@example.com');
   h.state.properties.NOTIFY_EMAIL = 'off';
   h.submit({ email: 'two@example.com' });
-  assert.equal(h.state.mail.length, 1);
+  assert.equal(h.state.mail[1].to, 'me@example.com');
+  assert.equal(h.state.mail[1].bcc, undefined);
+  h.state.properties.COPY_EMAIL = 'off';
+  h.submit({ email: 'three@example.com' });
+  assert.equal(h.state.mail.length, 2);
 });
 
 test('a mail failure still saves the signup and reports success', () => {
