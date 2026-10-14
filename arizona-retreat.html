@@ -293,6 +293,16 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
 #priority-status:empty { margin: 0; }
 #priority-status:not(:empty) { padding: 1rem 0 0; font-weight: 600; }
 #priority-status.is-error { color: #a51e19; }
+.priority-success { text-align: center; padding: .5rem 0 1rem; }
+.priority-success-badge { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 1.1rem; border-radius: 50%; background: var(--brand); color: var(--dark); box-shadow: 0 0 0 8px rgba(245, 197, 24, .22); animation: success-pop .6s cubic-bezier(.2, 1.4, .4, 1) both; }
+.priority-success h3 { font-size: clamp(1.6rem, 3vw, 2rem); margin-bottom: .4rem; }
+.priority-success h3:focus { outline: none; }
+.priority-success .priority-success-lead { font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: .8rem; }
+.priority-success p { color: var(--muted); max-width: 42ch; margin-inline: auto; }
+.priority-success .priority-success-meta { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--focus); margin: 1.1rem auto 1.4rem; }
+.priority-success .btn { width: auto; }
+@keyframes success-pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
 .arizona-questions { max-width: 800px; }
 .arizona-questions details { padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
 .arizona-questions summary { cursor: pointer; font-weight: 600; }
@@ -579,6 +589,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
           <p id="booking-link-wrap" hidden><a id="booking-link" class="btn" href="#priority-list">Book the Arizona Retreat</a></p>
         </div>
         <div class="priority-form-wrap">
+          <div id="priority-form-panel">
           <h3>Your Arizona priority-list request</h3>
           <p id="form-instructions">Share your details below to prepare an email to the retreat team. Send the email to request your place on the list.</p>
           <form id="priority-form" aria-describedby="form-instructions" action="#priority-list" method="post">
@@ -597,6 +608,15 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
           </form>
           <p id="priority-status" role="status" aria-live="polite" tabindex="-1"></p>
           <p id="email-draft-wrap" hidden><a id="email-draft" class="btn" href="mailto:yaya@coachingwithdralicia.org" target="_blank" rel="noopener noreferrer">Open Email Draft</a></p>
+          </div>
+          <div id="priority-success" class="priority-success" hidden>
+            <div class="priority-success-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+            <h3 id="priority-success-title" tabindex="-1">Congratulations!</h3>
+            <p class="priority-success-lead">You’re on the Desert BLOOM priority list.</p>
+            <p>As a priority-list member, you’ll be among the first to receive retreat details and you’ll get access to registration before it opens to the public. Keep an eye on your inbox.</p>
+            <p class="priority-success-meta">May 13–17, 2027 · CIVANA Wellness Resort &amp; Spa · Carefree, Arizona</p>
+            <button type="button" class="btn btn-ghost" id="priority-again">Add someone else</button>
+          </div>
           <p class="priority-help">Questions or trouble with the form? Email <a href="mailto:yaya@coachingwithdralicia.org" target="_blank" rel="noopener noreferrer">yaya@coachingwithdralicia.org</a> or call Yaya at <a href="tel:+15039950491">(503) 995-0491</a>.</p>
           <noscript><p>Email your first name, last name, and email address to <a href="mailto:yaya@coachingwithdralicia.org?subject=Arizona%20Retreat%20Priority%20List" target="_blank" rel="noopener noreferrer">the retreat team</a> to request priority-list signup.</p></noscript>
         </div>
@@ -728,6 +748,9 @@ const submit = document.getElementById('priority-submit');
 const status = document.getElementById('priority-status');
 const draftWrap = document.getElementById('email-draft-wrap');
 const count = document.getElementById('interest-count');
+const formPanel = document.getElementById('priority-form-panel');
+const success = document.getElementById('priority-success');
+const successTitle = document.getElementById('priority-success-title');
 const endpoint = config.priorityListEndpoint;
 let pendingRequest = null;
 let submitting = false;
@@ -786,6 +809,93 @@ form.addEventListener('input', () => {
   status.textContent = '';
 });
 
+// Brand-colored confetti from the top of the screen. Skipped for reduced motion.
+function celebrate() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return;
+  canvas.className = 'confetti-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(canvas);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let width = 0;
+  let height = 0;
+  const resize = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+  const colors = ['#f5c518', '#ecd27b', '#d4a80f', '#ffe27a', '#886200', '#1a1810'];
+  const pieces = Array.from({ length: width < 600 ? 130 : 220 }, () => ({
+    x: Math.random() * width,
+    y: -20 - Math.random() * height * 0.7,
+    w: 6 + Math.random() * 6,
+    h: 9 + Math.random() * 9,
+    vx: -1 + Math.random() * 2,
+    vy: 2 + Math.random() * 3,
+    spin: -0.15 + Math.random() * 0.3,
+    angle: Math.random() * Math.PI * 2,
+    sway: Math.random() * Math.PI * 2,
+    round: Math.random() < 0.25,
+    color: colors[Math.floor(Math.random() * colors.length)],
+  }));
+  const duration = 4200;
+  const start = performance.now();
+  const frame = now => {
+    const elapsed = now - start;
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalAlpha = elapsed > duration - 900 ? Math.max(0, (duration - elapsed) / 900) : 1;
+    for (const p of pieces) {
+      p.sway += 0.05;
+      p.x += p.vx + Math.sin(p.sway) * 0.9;
+      p.y += p.vy;
+      p.vy = Math.min(p.vy + 0.03, 6.5);
+      p.angle += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      if (p.round) {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.scale(1, Math.cos(p.sway * 1.6));
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
+    }
+    if (elapsed < duration) {
+      requestAnimationFrame(frame);
+    } else {
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+    }
+  };
+  requestAnimationFrame(frame);
+}
+
+function showSuccess(firstName) {
+  formPanel.hidden = true;
+  successTitle.textContent = firstName ? `Congratulations, ${firstName}!` : 'Congratulations!';
+  success.hidden = false;
+  successTitle.focus({ preventScroll: true });
+  success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  celebrate();
+}
+
+document.getElementById('priority-again').addEventListener('click', () => {
+  success.hidden = true;
+  formPanel.hidden = false;
+  status.textContent = '';
+  document.getElementById('first-name').focus();
+});
+
 form.addEventListener('submit', async event => {
   event.preventDefault();
   if (submitting || !form.reportValidity()) return;
@@ -820,10 +930,11 @@ form.addEventListener('submit', async event => {
     await request({ method: 'POST', body });
     form.reset();
     pendingRequest = null;
-    setStatus('Thank you. Your priority-list request has been received. If this email is already on the list, your original place is kept. This does not reserve a retreat spot.');
-    await refreshCount();
+    status.textContent = '';
+    showSuccess(firstName);
+    refreshCount();
   } catch {
-    setStatus('We couldn’t confirm your signup. Your details are still here so you can try again, or email the retreat team below. If the request reached us, retrying will not add a duplicate.', true);
+    setStatus('Something went wrong on our end and your signup didn’t go through. Your details are still here, so please try again. If it keeps happening, call or email Yaya below.', true);
   } finally {
     submitting = false;
     fields.disabled = false;
