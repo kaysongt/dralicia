@@ -6,6 +6,9 @@
  */
 var CAPACITY = 12;
 var SHEET_NAME = 'Arizona Priority List';
+// Friendly, read-only tab for the retreat team; rebuilt by setupPriorityList.
+var VIEW_NAME = 'Signups';
+var DATE_FORMAT = 'mmm d, yyyy h:mm am/pm';
 // Who is emailed about each new signup. Override with the NOTIFY_EMAIL script
 // property (comma-separate several addresses); set it to "off" to disable.
 var DEFAULT_NOTIFY_EMAIL = 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com';
@@ -26,9 +29,45 @@ function setupPriorityList() {
       sheet.setFrozenRows(1);
     }
     validateHeaders_(sheet);
+    buildSignupsView_(workbook, sheet);
     SpreadsheetApp.flush();
   } finally {
     lock.releaseLock();
+  }
+}
+
+/**
+ * Builds the "Signups" tab: #, name, email and signup time in plain language,
+ * sorted by list position and updated automatically by formula. The technical
+ * tab is hidden (not deleted): duplicate checks and positions depend on it.
+ */
+function buildSignupsView_(workbook, raw) {
+  var view = workbook.getSheetByName(VIEW_NAME) || workbook.insertSheet(VIEW_NAME, 0);
+  view.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(function (p) { p.remove(); });
+  view.clear();
+  var src = "'" + SHEET_NAME + "'!";
+  var signedUp = 'IF(ISNUMBER(' + src + 'A2:A), ' + src + 'A2:A, IFERROR(DATEVALUE(LEFT(' + src +
+    'A2:A, 10)) + TIMEVALUE(MID(' + src + 'A2:A, 12, 8)), ' + src + 'A2:A))';
+  view.getRange(1, 1, 1, 6).setValues([['#', 'First name', 'Last name', 'Email', 'Signed up', 'Total signups']]);
+  view.getRange(2, 1).setFormula('=ARRAYFORMULA(IFERROR(SORT(FILTER({' + src + 'G2:G*1, ' + src + 'B2:B, ' +
+    src + 'C2:C, ' + src + 'D2:D, ' + signedUp + '}, ' + src + 'D2:D <> ""), 1, TRUE), ))');
+  view.getRange(2, 6).setFormula('=COUNTA(D2:D)');
+  view.getRange(1, 1, 1, 6).setFontWeight('bold').setBackground('#f5c518').setFontColor('#1a1810');
+  view.getRange(2, 5, 999, 1).setNumberFormat(DATE_FORMAT);
+  view.getRange(2, 1, 999, 1).setHorizontalAlignment('left');
+  view.getRange(2, 6).setFontWeight('bold').setFontSize(14).setHorizontalAlignment('center');
+  view.setFrozenRows(1);
+  [50, 150, 150, 260, 190, 110].forEach(function (width, i) { view.setColumnWidth(i + 1, width); });
+  view.protect().setDescription('Filled in automatically from new website signups. Edit the hidden "' +
+    SHEET_NAME + '" tab only if you need to remove someone.').setWarningOnly(true);
+  workbook.setActiveSheet(view);
+  workbook.moveActiveSheet(1);
+  raw.hideSheet();
+  // A brand-new spreadsheet starts with an empty "Sheet1"; remove it to avoid confusion.
+  var blank = workbook.getSheetByName('Sheet1');
+  if (blank && blank.getSheetId() !== raw.getSheetId() && blank.getSheetId() !== view.getSheetId() &&
+      blank.getLastRow() === 0 && blank.getLastColumn() === 0) {
+    workbook.deleteSheet(blank);
   }
 }
 
@@ -94,11 +133,12 @@ function doPost(event) {
 
     var position = maximumPosition + 1;
     var record = [
-      new Date().toISOString(), cellText_(attendee.firstName), cellText_(attendee.lastName),
+      new Date(), cellText_(attendee.firstName), cellText_(attendee.lastName),
       cellText_(attendee.email), emailHash, attendee.requestId, position, 'yes', 'arizona-interest-v1'
     ];
     var target = sheet.getRange(sheet.getLastRow() + 1, 1, 1, HEADERS.length);
-    target.setNumberFormat('@');
+    // A real date shows in the Sheet's own time zone; names and email stay plain text.
+    target.setNumberFormats([[DATE_FORMAT, '@', '@', '@', '@', '@', '0', '@', '@']]);
     target.setValues([record]);
     SpreadsheetApp.flush();
     // Stored after the write: a lost response can safely be retried without another row.
