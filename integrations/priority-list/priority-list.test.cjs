@@ -11,6 +11,7 @@ function createHarness() {
   const state = {
     rows: [], properties: { SPREADSHEET_ID: 'private-test-sheet' }, cache: new Map(),
     acquired: false, releases: 0, denyLock: false, failWrite: false, failFlush: false,
+    mail: [], failMail: false, unbound: false,
   };
   const clone = (value) => JSON.parse(JSON.stringify(value));
   const sheet = {
@@ -39,6 +40,7 @@ function createHarness() {
     }) },
     SpreadsheetApp: {
       openById: () => ({ getSheetByName: () => sheet, insertSheet: () => sheet }),
+      getActiveSpreadsheet: () => (state.unbound ? null : { getSheetByName: () => sheet, insertSheet: () => sheet }),
       flush: () => { if (state.failFlush) throw new Error('Simulated flush failure'); },
     },
     PropertiesService: { getScriptProperties: () => ({
@@ -52,6 +54,10 @@ function createHarness() {
       DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' },
       computeDigest: (algorithm, text, encoding) => [...createHash(algorithm).update(text, encoding).digest()],
     },
+    MailApp: { sendEmail: (message) => {
+      if (state.failMail) throw new Error('Simulated mail quota');
+      state.mail.push(clone(message));
+    } },
     ContentService: {
       MimeType: { JSON: 'application/json' },
       createTextOutput: (body) => ({ setMimeType: () => JSON.parse(body) }),
@@ -186,8 +192,50 @@ test('high-water mark preserves assigned position numbers if an administrator re
 test('missing configuration fails closed without disclosing private data', () => {
   const h = createHarness();
   delete h.state.properties.SPREADSHEET_ID;
+  h.state.unbound = true; // standalone script with no SPREADSHEET_ID
   assert.deepEqual(h.submit(), { ok: false, error: 'unavailable' });
   assert.deepEqual(h.context.doGet(), { ok: false, error: 'unavailable' });
   assert.equal(h.state.rows.length, 1);
   assert.equal(h.state.releases, 1);
+});
+
+test('each new signup emails the retreat team once; duplicates and bots do not', () => {
+  const h = createHarness();
+  h.submit({ firstName: 'Maya', lastName: 'Rivers', email: 'Maya@Example.com' });
+  assert.equal(h.state.mail.length, 1);
+  const message = h.state.mail[0];
+  assert.equal(message.to, 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com');
+  assert.equal(message.subject, 'New Desert BLOOM signup: Maya Rivers');
+  assert.match(message.body, /Name: Maya Rivers/);
+  assert.match(message.body, /Email: maya@example\.com/);
+  assert.match(message.body, /List position: 1/);
+  h.submit({ email: 'maya@example.com' });
+  h.submit({ email: 'bot@example.com', website: 'spam' });
+  assert.equal(h.state.mail.length, 1);
+});
+
+test('NOTIFY_EMAIL overrides the recipient and "off" disables notifications', () => {
+  const h = createHarness();
+  h.state.properties.NOTIFY_EMAIL = 'team@example.com, yaya@example.com';
+  h.submit({ email: 'one@example.com' });
+  assert.equal(h.state.mail[0].to, 'team@example.com, yaya@example.com');
+  h.state.properties.NOTIFY_EMAIL = 'off';
+  h.submit({ email: 'two@example.com' });
+  assert.equal(h.state.mail.length, 1);
+});
+
+test('a mail failure still saves the signup and reports success', () => {
+  const h = createHarness();
+  h.state.failMail = true;
+  assert.deepEqual(h.submit({ email: 'saved@example.com' }), { ok: true, capacity: 12 });
+  assert.equal(h.state.rows.length, 2);
+  assert.equal(h.state.rows[1][3], 'saved@example.com');
+  assert.equal(h.state.releases, 1);
+});
+
+test('without SPREADSHEET_ID the script uses the Sheet it is attached to', () => {
+  const h = createHarness();
+  delete h.state.properties.SPREADSHEET_ID;
+  assert.deepEqual(h.submit({ email: 'bound@example.com' }), { ok: true, capacity: 12 });
+  assert.equal(h.state.rows[1][3], 'bound@example.com');
 });

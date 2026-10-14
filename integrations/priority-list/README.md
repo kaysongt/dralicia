@@ -1,26 +1,38 @@
 # Arizona priority-list backend
 
-**Prepared, locally tested, and not deployed.** GitHub Pages cannot run this server code. Publishing the website alone does not create a Google Sheet, activate this endpoint, save submissions, or generate a real list count. A Google Workspace administrator must finish the separate setup below and verify an actual submission before announcing automated sign-up.
+**Prepared and locally tested; it goes live only after someone deploys it from a Google account.** GitHub Pages cannot run server code, so until the steps below are done the website's form falls back to opening a pre-filled email to the retreat team.
 
-The website's `src/retreat-config.js` initially has an empty `priorityListEndpoint`. Until an endpoint is connected, the website offers an email request instead of claiming to save an entry. Sending that email is a visitor action. The retreat team must reconcile received requests manually; opening an email draft does not join the automated list. Establish the order of existing email requests before opening the automated list, to avoid assigning misleading priority.
+Once deployed, every signup:
 
-## Set up in the retreat owner's Google account
+1. is saved as a row in a private Google Sheet (tab **Arizona Priority List**), and
+2. triggers an email to **yaya@coachingwithdralicia.org** and **yasmeen@coachingwithdralicia.com** with the person's name, email, and list position.
 
-1. Create a Google spreadsheet for the retreat. Keep general access **Restricted** and share it only with staff who need attendee information. Do not publish the Sheet or place its identifier in the website repository.
-2. Create a standalone Apps Script project. Copy `Code.gs` into its editor. Enable the manifest in Project Settings and copy `appsscript.json` into the manifest. The project requests spreadsheet access; it neither reads nor sends email.
-3. In **Project Settings → Script properties**, add:
+## Set up (about 10 minutes, in the Google account that should own the list)
 
-   | Property | Value |
-   | --- | --- |
-   | `SPREADSHEET_ID` | The identifier of the private spreadsheet. Required. |
-   | `EXPOSE_AGGREGATE_COUNT` | Set to `true` to enable the website's live interest tally. Without this value, the API returns `interestCount: null`. |
-   | `MAX_REQUESTS_PER_HOUR` | Optional global hourly request limit; default `120`, allowed range `1`–`1000`. |
+1. **Create the Sheet.** In Google Drive, create a new Google Sheet named, for example, *Desert BLOOM Priority List*. Keep sharing **Restricted** and share it only with staff who need it (for example Yaya). Never make it public.
+2. **Open Apps Script from the Sheet.** In the Sheet choose **Extensions → Apps Script**. Delete the starter code and paste in all of `Code.gs`.
+3. **Add the manifest.** Click the gear (**Project Settings**), tick **Show "appsscript.json" manifest file in editor**, go back to the editor, open `appsscript.json`, and replace its contents with this repo's `appsscript.json`.
+4. **Run setup once.** In the editor's function dropdown pick `setupPriorityList` and click **Run**. Approve the permission prompt (Google will show "unverified app" for your own script: choose *Advanced → Go to project*). It creates the **Arizona Priority List** tab with its headers. The permissions are: edit spreadsheets, and send email as you.
+5. **Deploy.** Click **Deploy → New deployment**, choose type **Web app**, set *Execute as* **Me** and *Who has access* **Anyone**, then **Deploy**. Copy the **Web app URL** that ends in `/exec` (not a `/dev` URL).
+6. **Connect the website.** *(Done: the live deployment URL is set in `arizona-retreat.html`.)* Paste that URL into `priorityListEndpoint` in the inline `config` near the bottom of `arizona-retreat.html` (that is the copy the live page uses; mirror it in `src/retreat-config.js`). Commit and publish. The form then says **Join the Priority List** instead of offering an email draft.
+7. **Test once.** On the live page, sign up with a test name and your own email. Check that a row appears in the Sheet and that Yaya receives the email. Then delete the test row.
 
-   `LAST_POSITION` is managed by the script after successful new entries. Do not reset it on an active list.
-4. Run `setupPriorityList` once from the editor and authorize it as the retreat owner. It creates the `Arizona Priority List` tab and its headers. Existing incompatible headers cause a failure rather than silently overwriting information.
-5. Choose **Deploy → New deployment → Web app**. Execute as the owner and allow access by **Anyone**, if the organization's Workspace policy allows public web apps. Keep the Sheet restricted; public access applies to the web app only. If public web apps are prohibited, use an approved form/backend service instead of relaxing the organization's controls.
-6. Copy the deployed `/exec` URL into `retreatConfig.priorityListEndpoint` in `src/retreat-config.js` and publish the website update. Do not use the editor-only `/dev` URL. This endpoint URL is intentionally public; credentials and the Sheet ID must stay out of client code.
-7. Complete the browser verification below before advertising the list. Updating Apps Script code later requires updating the web-app deployment to a new version.
+If Code.gs changes later, use **Deploy → Manage deployments → Edit → Version: New version** so the same `/exec` URL keeps working.
+
+### Optional script properties
+
+Set these under **Project Settings → Script properties**. None are required when the script is opened from the Sheet as above.
+
+| Property | Value |
+| --- | --- |
+| `NOTIFY_EMAIL` | Who gets the signup emails. Defaults to `yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com`. Comma-separate several addresses, or set `off` to stop emails. |
+| `SPREADSHEET_ID` | Only for a standalone script that is *not* opened from the Sheet: the ID of the private Sheet. Never put it in the website repository. |
+| `EXPOSE_AGGREGATE_COUNT` | `true` shows "N people have joined the interest list" on the page. Off by default. |
+| `MAX_REQUESTS_PER_HOUR` | Global hourly request limit; default `120`, allowed `1`–`1000`. |
+
+`LAST_POSITION` is managed by the script after successful new entries. Do not reset it on an active list.
+
+Email uses the owning account's Apps Script quota (about 100 recipients a day on a free Gmail account, 1,500 on Google Workspace). If the quota runs out the signup is still saved; only the email is skipped.
 
 ## API contract
 
@@ -41,7 +53,7 @@ The public success body is identical for new entries and existing email addresse
 { "ok": true, "capacity": 12 }
 ```
 
-Do not interpret this response as a paid reservation, confirmed attendee place, available-room count, or promise that an email was sent. No emails are sent by this backend. Retrying an email preserves its original row and order; repeated input does not update the person's name or consent. A reused request ID belonging to another email is rejected.
+Do not interpret this response as a paid reservation, confirmed attendee place, or available-room count. New entries trigger a best-effort notification email to the retreat team; the response does not confirm it was delivered, and no email is sent to the visitor. Retrying an email preserves its original row and order; repeated input does not update the person's name or consent. A reused request ID belonging to another email is rejected.
 
 Failures return an application-level JSON result. Inspect `ok`; an HTTP 200 response alone is insufficient:
 
@@ -57,7 +69,7 @@ GET the same `/exec` endpoint with no personal parameters to obtain the optional
 { "ok": true, "capacity": 12, "interestCount": 13 }
 ```
 
-If public counts are disabled, `interestCount` is `null`. Missing configuration returns `ok: false`. Fetch again after a successful POST, and render a tally only when `interestCount` is a non-negative integer. Use wording such as **13 people on the interest list · retreat limited to 12 guests**. Never derive “spots remaining” from `12 - interestCount`: interest is not payment or a reservation.
+If public counts are disabled, `interestCount` is `null`. Missing configuration returns `ok: false`. Fetch again after a successful POST, and render a tally only when `interestCount` is a non-negative integer. Use wording such as **13 people have joined the interest list**. Never derive “spots remaining” from `12 - interestCount`: interest is not payment or a reservation.
 
 ## Priority, privacy, and operations
 
