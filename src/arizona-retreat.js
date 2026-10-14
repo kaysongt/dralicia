@@ -6,6 +6,9 @@ const submit = document.getElementById('priority-submit');
 const status = document.getElementById('priority-status');
 const draftWrap = document.getElementById('email-draft-wrap');
 const count = document.getElementById('interest-count');
+const formPanel = document.getElementById('priority-form-panel');
+const success = document.getElementById('priority-success');
+const successTitle = document.getElementById('priority-success-title');
 const endpoint = config.priorityListEndpoint;
 let pendingRequest = null;
 let submitting = false;
@@ -64,6 +67,93 @@ form.addEventListener('input', () => {
   status.textContent = '';
 });
 
+// Brand-colored confetti from the top of the screen. Skipped for reduced motion.
+function celebrate() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return;
+  canvas.className = 'confetti-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(canvas);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let width = 0;
+  let height = 0;
+  const resize = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+  const colors = ['#f5c518', '#ecd27b', '#d4a80f', '#ffe27a', '#886200', '#1a1810'];
+  const pieces = Array.from({ length: width < 600 ? 130 : 220 }, () => ({
+    x: Math.random() * width,
+    y: -20 - Math.random() * height * 0.7,
+    w: 6 + Math.random() * 6,
+    h: 9 + Math.random() * 9,
+    vx: -1 + Math.random() * 2,
+    vy: 2 + Math.random() * 3,
+    spin: -0.15 + Math.random() * 0.3,
+    angle: Math.random() * Math.PI * 2,
+    sway: Math.random() * Math.PI * 2,
+    round: Math.random() < 0.25,
+    color: colors[Math.floor(Math.random() * colors.length)],
+  }));
+  const duration = 4200;
+  const start = performance.now();
+  const frame = now => {
+    const elapsed = now - start;
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalAlpha = elapsed > duration - 900 ? Math.max(0, (duration - elapsed) / 900) : 1;
+    for (const p of pieces) {
+      p.sway += 0.05;
+      p.x += p.vx + Math.sin(p.sway) * 0.9;
+      p.y += p.vy;
+      p.vy = Math.min(p.vy + 0.03, 6.5);
+      p.angle += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      if (p.round) {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.scale(1, Math.cos(p.sway * 1.6));
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
+    }
+    if (elapsed < duration) {
+      requestAnimationFrame(frame);
+    } else {
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+    }
+  };
+  requestAnimationFrame(frame);
+}
+
+function showSuccess(firstName) {
+  formPanel.hidden = true;
+  successTitle.textContent = firstName ? `Congratulations, ${firstName}!` : 'Congratulations!';
+  success.hidden = false;
+  successTitle.focus({ preventScroll: true });
+  success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  celebrate();
+}
+
+document.getElementById('priority-again').addEventListener('click', () => {
+  success.hidden = true;
+  formPanel.hidden = false;
+  status.textContent = '';
+  document.getElementById('first-name').focus();
+});
+
 form.addEventListener('submit', async event => {
   event.preventDefault();
   if (submitting || !form.reportValidity()) return;
@@ -98,10 +188,11 @@ form.addEventListener('submit', async event => {
     await request({ method: 'POST', body });
     form.reset();
     pendingRequest = null;
-    setStatus('Thank you. Your priority-list request has been received. If this email is already on the list, your original place is kept. This does not reserve a retreat spot.');
-    await refreshCount();
+    status.textContent = '';
+    showSuccess(firstName);
+    refreshCount();
   } catch {
-    setStatus('We couldn’t confirm your signup. Your details are still here so you can try again, or email the retreat team below. If the request reached us, retrying will not add a duplicate.', true);
+    setStatus('Something went wrong on our end and your signup didn’t go through. Your details are still here, so please try again. If it keeps happening, call or email Yaya below.', true);
   } finally {
     submitting = false;
     fields.disabled = false;
