@@ -41,7 +41,7 @@ document.querySelectorAll('.sched-week-tab').forEach(tab => {
   })
 })
 
-// Status toggle — cycles todo → doing → done → todo, persists via localStorage
+// Status toggle: cycles todo → doing → done → todo, persists via localStorage
 document.querySelectorAll('.sc-status-btn').forEach(btn => {
   const id = btn.closest('.sched-card').dataset.id
   const saved = localStorage.getItem('sc-' + id)

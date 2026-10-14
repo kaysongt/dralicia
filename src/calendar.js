@@ -148,7 +148,7 @@ class BookingCalendar {
       `DTSTART:${fmt(start)}`,
       `DTEND:${fmt(end)}`,
       `SUMMARY:${type} with Dr. Alicia`,
-      `DESCRIPTION:Appointment for ${name} — ${type}\\nContact: ${email}`,
+      `DESCRIPTION:Appointment for ${name}: ${type}\\nContact: ${email}`,
       'LOCATION:Online (Zoom link will be sent via email)',
       `ORGANIZER;CN=Dr. Alicia:mailto:hello@dralicia.com`,
       `ATTENDEE;RSVP=TRUE;CN=${name}:mailto:${email}`,
@@ -171,7 +171,7 @@ class BookingCalendar {
           ${this.selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           &nbsp;&#183;&nbsp; ${this.selectedTime}
         </p>
-        <p class="success-hint">Your <strong>.ics file</strong> was downloaded — open it to add directly to Apple Calendar.</p>
+        <p class="success-hint">Your <strong>.ics file</strong> was downloaded. Open it to add directly to Apple Calendar.</p>
         <button class="btn btn-ghost" id="bookAnother">Book Another Time</button>
       </div>
     `;
