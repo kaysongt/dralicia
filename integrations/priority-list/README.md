@@ -5,7 +5,7 @@
 Once deployed, every signup:
 
 1. is saved as a row in a private Google Sheet (tab **Arizona Priority List**), and
-2. triggers an email to **yaya@coachingwithdralicia.org** with the person's name, email, and list position.
+2. triggers an email to **yaya@coachingwithdralicia.org** and **yasmeen@coachingwithdralicia.com** with the person's name, email, and list position.
 
 ## Set up (about 10 minutes, in the Google account that should own the list)
 
@@ -14,7 +14,7 @@ Once deployed, every signup:
 3. **Add the manifest.** Click the gear (**Project Settings**), tick **Show "appsscript.json" manifest file in editor**, go back to the editor, open `appsscript.json`, and replace its contents with this repo's `appsscript.json`.
 4. **Run setup once.** In the editor's function dropdown pick `setupPriorityList` and click **Run**. Approve the permission prompt (Google will show "unverified app" for your own script: choose *Advanced → Go to project*). It creates the **Arizona Priority List** tab with its headers. The permissions are: edit spreadsheets, and send email as you.
 5. **Deploy.** Click **Deploy → New deployment**, choose type **Web app**, set *Execute as* **Me** and *Who has access* **Anyone**, then **Deploy**. Copy the **Web app URL** that ends in `/exec` (not a `/dev` URL).
-6. **Connect the website.** Paste that URL into `priorityListEndpoint` in the inline `config` near the bottom of `arizona-retreat.html` (that is the copy the live page uses; mirror it in `src/retreat-config.js`). Commit and publish. The form then says **Join the Priority List** instead of offering an email draft.
+6. **Connect the website.** *(Done: the live deployment URL is set in `arizona-retreat.html`.)* Paste that URL into `priorityListEndpoint` in the inline `config` near the bottom of `arizona-retreat.html` (that is the copy the live page uses; mirror it in `src/retreat-config.js`). Commit and publish. The form then says **Join the Priority List** instead of offering an email draft.
 7. **Test once.** On the live page, sign up with a test name and your own email. Check that a row appears in the Sheet and that Yaya receives the email. Then delete the test row.
 
 If Code.gs changes later, use **Deploy → Manage deployments → Edit → Version: New version** so the same `/exec` URL keeps working.
@@ -25,7 +25,7 @@ Set these under **Project Settings → Script properties**. None are required wh
 
 | Property | Value |
 | --- | --- |
-| `NOTIFY_EMAIL` | Who gets the signup emails. Defaults to `yaya@coachingwithdralicia.org`. Comma-separate several addresses, or set `off` to stop emails. |
+| `NOTIFY_EMAIL` | Who gets the signup emails. Defaults to `yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com`. Comma-separate several addresses, or set `off` to stop emails. |
 | `SPREADSHEET_ID` | Only for a standalone script that is *not* opened from the Sheet: the ID of the private Sheet. Never put it in the website repository. |
 | `EXPOSE_AGGREGATE_COUNT` | `true` shows "N people have joined the interest list" on the page. Off by default. |
 | `MAX_REQUESTS_PER_HOUR` | Global hourly request limit; default `120`, allowed `1`–`1000`. |

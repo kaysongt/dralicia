@@ -8,7 +8,7 @@ var CAPACITY = 12;
 var SHEET_NAME = 'Arizona Priority List';
 // Who is emailed about each new signup. Override with the NOTIFY_EMAIL script
 // property (comma-separate several addresses); set it to "off" to disable.
-var DEFAULT_NOTIFY_EMAIL = 'yaya@coachingwithdralicia.org';
+var DEFAULT_NOTIFY_EMAIL = 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com';
 var HEADERS = [
   'joined_at_utc', 'first_name', 'last_name', 'email', 'email_sha256',
   'request_id', 'list_position', 'consent', 'consent_version'

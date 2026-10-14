@@ -204,7 +204,7 @@ test('each new signup emails the retreat team once; duplicates and bots do not',
   h.submit({ firstName: 'Maya', lastName: 'Rivers', email: 'Maya@Example.com' });
   assert.equal(h.state.mail.length, 1);
   const message = h.state.mail[0];
-  assert.equal(message.to, 'yaya@coachingwithdralicia.org');
+  assert.equal(message.to, 'yaya@coachingwithdralicia.org, yasmeen@coachingwithdralicia.com');
   assert.equal(message.subject, 'New Desert BLOOM signup: Maya Rivers');
   assert.match(message.body, /Name: Maya Rivers/);
   assert.match(message.body, /Email: maya@example\.com/);
