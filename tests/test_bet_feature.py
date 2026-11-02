@@ -17,39 +17,40 @@ class BetFeatureTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.html = (ROOT / 'index.html').read_text()
-        start = cls.html.index('<section id="as-seen-on-bet"')
-        cls.feature = cls.html[start:cls.html.index('</section>', start)]
+        start = cls.html.index('<aside id="as-seen-on-bet"')
+        cls.feature = cls.html[start:cls.html.index('</aside>', start)]
         cls.parser = Elements()
         cls.parser.feed(cls.feature)
 
-    def test_section_is_between_hero_and_services(self):
-        self.assertLess(self.html.index('class="hero"'), self.html.index('id="as-seen-on-bet"'))
-        self.assertLess(self.html.index('id="as-seen-on-bet"'), self.html.index('id="ventures"'))
+    def test_feature_is_first_content_inside_hero(self):
+        hero = self.html.index('<section class="hero">')
+        feature = self.html.index('<aside id="as-seen-on-bet"')
+        self.assertLess(hero, feature)
+        self.assertLess(feature, self.html.index('<h1>', hero))
+        self.assertLess(feature, self.html.index('</section>', hero))
         self.assertEqual(self.html.count('id="as-seen-on-bet"'), 1)
+        self.assertNotIn('class="bet-feature"', self.html)
 
-    def test_accessible_heading_and_existing_sized_image(self):
-        tags = self.parser.elements
-        section = next(attrs for tag, attrs in tags if tag == 'section')
-        heading = next(attrs for tag, attrs in tags if tag == 'h2')
-        self.assertEqual(section['aria-labelledby'], heading['id'])
-        image = next(attrs for tag, attrs in tags if tag == 'img')
-        self.assertTrue(image['alt'])
-        self.assertEqual((image['width'], image['height']), ('349', '500'))
-        self.assertEqual(image['loading'], 'lazy')
-        self.assertTrue((ROOT / image['src'].lstrip('/')).is_file())
+    def test_accessible_official_sized_logos(self):
+        aside = next(attrs for tag, attrs in self.parser.elements if tag == 'aside')
+        self.assertIn('Dr. Alicia Watkins', aside['aria-label'])
+        images = [attrs for tag, attrs in self.parser.elements if tag == 'img']
+        self.assertEqual([im['alt'] for im in images], ['BET', 'Nick Cannon @ Night'])
+        for image in images:
+            self.assertGreater(int(image['width']), 0)
+            self.assertGreater(int(image['height']), 0)
+            self.assertNotEqual(image.get('loading'), 'lazy')
+            self.assertTrue((ROOT / image['src'].lstrip('/')).is_file())
 
-    def test_verified_content_and_clear_links(self):
-        self.assertIn('As seen on BET', self.feature)
-        self.assertIn('Nick Cannon @ Night', self.feature)
-        self.assertIn('Season 1, Episode 2', self.feature)
-        self.assertIn('datetime="2026-10-27"', self.feature)
+    def test_episode_link_and_primary_booking_are_preserved(self):
         links = [attrs['href'] for tag, attrs in self.parser.elements if tag == 'a']
-        self.assertEqual(len(links), 2)
+        self.assertEqual(len(links), 1)
         self.assertTrue(links[0].startswith('https://tv.apple.com/us/episode/'))
-        self.assertEqual(links[1], 'https://www.youtube.com/watch?v=rmPG7LjJ_CE')
-        self.assertIn('Watch the series trailer', self.feature)
+        self.assertIn('Dr. Alicia’s guest appearance', self.feature)
+        self.assertIn('href="#appointments">Book a Consultation</a>', self.html)
         self.assertNotIn('<iframe', self.feature)
         self.assertNotIn('<script', self.feature)
+        self.assertNotIn('podcast', self.feature.lower())
 
 if __name__ == '__main__':
     unittest.main()
