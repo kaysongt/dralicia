@@ -520,31 +520,33 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
 
-/* Verified television appearance; scoped to the homepage media feature. */
-.bet-feature { padding-block: clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line); }
-.bet-feature-grid { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
-.bet-feature-portrait { margin: 0; padding: 0 1.25rem 1.25rem 0; position: relative; max-width: 370px; }
-.bet-feature-portrait::before { content: ''; position: absolute; inset: 1.25rem 0 0 1.25rem; background: var(--brand); border-radius: var(--radius); }
-.bet-feature-portrait img { position: relative; display: block; width: 100%; aspect-ratio: 349 / 500; object-fit: cover; border-radius: var(--radius); }
-.bet-feature-eyebrow { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.3rem; color: var(--ink); font-size: .82rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.bet-feature-eyebrow::before { content: ''; width: 2rem; height: 3px; background: var(--brand); }
-.bet-feature h2 { font-size: clamp(1.9rem, 3.25vw, 2.85rem); max-width: 20ch; }
-.bet-feature h2 span { display: block; }
-.bet-feature-description { color: var(--muted); max-width: 52ch; font-size: 1.04rem; }
-.bet-feature-episode { border-left: 3px solid var(--brand); padding-left: 1rem; margin-block: 1.6rem; }
-.bet-feature-episode strong { display: block; font-size: 1rem; }
-.bet-feature-episode p { margin: .35rem 0 0; color: var(--muted); font-size: .85rem; }
-.bet-feature-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem 1.5rem; }
-.bet-feature-trailer { display: inline-flex; align-items: center; min-height: 48px; font-size: .9rem; font-weight: 600; }
-@media (max-width: 700px) {
-  .bet-feature-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .bet-feature-portrait { width: min(100%, 290px); margin-inline: auto; }
-  .bet-feature h2 { max-width: 23ch; }
-  .bet-feature-description { font-size: 1rem; }
+/* Television credentials belong in the first visible hero panel, not below it. */
+.hero-content { padding-block: 2.5rem; }
+.hero-media { margin: 0 0 1.65rem; max-width: 530px; }
+.hero-media-label { margin: 0 0 .7rem; color: #ecd27b; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.hero-media-logos { display: flex; align-items: center; gap: 1.25rem; }
+.hero-media-logos img { display: block; object-fit: contain; flex-shrink: 0; }
+.hero-media-bet { width: 58px; height: 58px; }
+.hero-media-show { width: 264px; height: auto; aspect-ratio: 910 / 355; border-radius: 4px; }
+.hero-media-divider { width: 1px; height: 42px; background: #847a62; flex-shrink: 0; }
+.hero-media-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: .35rem; color: #faf9f6; font-size: .83rem; font-weight: 500; text-decoration-color: #847a62; }
+.hero-media-link:hover { color: var(--brand); text-decoration-color: var(--brand); }
+.hero .hero-retreat-card { margin-top: 1.25rem; }
+@media (max-width: 1000px) {
+  .hero-media-logos { gap: 1rem; }
+  .hero-media-show { width: 220px; }
+  .hero-media-bet { width: 52px; height: 52px; }
 }
-@media (max-width: 420px) {
-  .bet-feature-actions { align-items: stretch; flex-direction: column; gap: .35rem; }
-  .bet-feature-trailer { justify-content: center; }
+@media (max-width: 700px) {
+  .hero-content { padding-block: 1.35rem 1rem; }
+  .hero-media { margin-bottom: 1.1rem; }
+  .hero-media-label { margin-bottom: .45rem; }
+  .hero-media-show { width: 192px; }
+  .hero-media-bet { width: 48px; height: 48px; }
+  .hero-media-divider { height: 34px; }
+  .hero h1 { font-size: clamp(2.1rem, 7.3vw, 3.1rem); margin-bottom: 1rem; }
+  .hero .lead { font-size: .95rem; }
+  .hero .hero-actions { margin-top: 1.1rem; }
 }
 </style></head>
 <body>
@@ -565,6 +567,16 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
  <details class="mobile-menu"><summary>Menu <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></summary><nav aria-label="Mobile navigation"><a href="/index.html#ventures">Services</a><a href="/index.html#retreat">Retreats</a><a href="/index.html#about">About</a><a href="/index.html#products">Shop</a><a href="/index.html#contact">Contact</a><a href="/index.html#ebooks">eBooks</a><a href="/index.html#appointments">Appointments</a></nav></details></div>
  </div></header><main id="main">
     <section class="hero"><div class="container hero-grid"><div class="hero-content">
+ <aside id="as-seen-on-bet" class="hero-media" aria-label="Dr. Alicia Watkins on Nick Cannon at Night on BET">
+  <p class="hero-media-label">As seen on BET</p>
+  <div class="hero-media-logos">
+   <img class="hero-media-bet" src="/src/media/bet-logo.svg" alt="BET" width="320" height="320" decoding="async">
+   <span class="hero-media-divider" aria-hidden="true"></span>
+   <img class="hero-media-show" src="/src/media/nick-cannon-at-night-logo.svg" alt="Nick Cannon @ Night" width="910" height="355" decoding="async">
+  </div>
+  <a class="hero-media-link" href="https://tv.apple.com/us/episode/natalie-nunn--dr-watkins-are-you-too-broke-to-date/umc.cmc.7hiwc52dpk0z7ofab9h33p3ne?showId=umc.cmc.7ilp9ckg7lyshld9lo1oxaxlq">Dr. Alicia’s guest appearance <span aria-hidden="true">&nbsp;→</span></a>
+ </aside>
+
  <h1>Heal. Grow.<br><span class="hero-accent">Transform</span> with Dr. Alicia.</h1>
  <p class="hero-role">Therapist · Coach · Wellness Leader</p>
  <p class="lead">Whether you’re seeking therapy, coaching, wellness products, or a life-changing retreat, you’re in the right place. Dr. Alicia meets you where you are.</p>
@@ -578,26 +590,7 @@ footer :focus-visible, .hero :focus-visible, .arizona-hero :focus-visible { outl
   <span class="hrc-arrow" aria-hidden="true">→</span>
  </a>
  </div><div class="hero-image-wrap"><img src="/src/dralicia-hero-yellow-900.webp" srcset="/src/dralicia-hero-yellow-560.webp 560w, /src/dralicia-hero-yellow-900.webp 900w" sizes="(max-width: 700px) 320px, 460px" alt="Dr. Alicia Watkins in a yellow sweater, smiling and holding a pen" class="hero-portrait" fetchpriority="high" width="900" height="1255" decoding="async"></div></div></section>
-    <section id="as-seen-on-bet" class="bet-feature" aria-labelledby="bet-feature-title">
-      <div class="container bet-feature-grid">
-        <figure class="bet-feature-portrait">
-          <img src="/src/dralicia-g2.jpg" alt="Dr. Alicia Watkins smiling in a yellow dress" width="349" height="500" loading="lazy" decoding="async">
-        </figure>
-        <div class="bet-feature-copy">
-          <p class="bet-feature-eyebrow">As seen on BET</p>
-          <h2 id="bet-feature-title">Dr. Alicia on <span>Nick Cannon @ Night</span></h2>
-          <p class="bet-feature-description">Dr. Alicia joins Nick Cannon and Natalie Nunn for a candid conversation about dating, trust, and modern relationships.</p>
-          <div class="bet-feature-episode">
-            <strong>“Are You Too Broke to Date?”</strong>
-            <p>Season 1, Episode 2 <span aria-hidden="true">·</span> <time datetime="2026-10-27">October 27, 2026</time></p>
-          </div>
-          <div class="bet-feature-actions">
-            <a class="btn" href="https://tv.apple.com/us/episode/natalie-nunn--dr-watkins-are-you-too-broke-to-date/umc.cmc.7hiwc52dpk0z7ofab9h33p3ne?showId=umc.cmc.7ilp9ckg7lyshld9lo1oxaxlq">View episode details</a>
-            <a class="bet-feature-trailer" href="https://www.youtube.com/watch?v=rmPG7LjJ_CE">Watch the series trailer</a>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <section id="ventures" class="section">
       <div class="container services-layout reveal">
